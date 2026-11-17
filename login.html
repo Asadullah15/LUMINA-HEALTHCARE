@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login — Lumina Health</title>
+<meta name="description" content="Log in to Lumina Health as an admin, doctor, receptionist or patient.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2314A3A8'/%3E%3Cstop offset='1' stop-color='%231D5FD6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='20' cy='20' r='17' fill='url(%23g)'/%3E%3Cpath d='M28 2.8A19 19 0 0 1 38.3 15.1' fill='none' stroke='%23F6B13C' stroke-width='2.6' stroke-linecap='round'/%3E%3Crect x='17' y='10' width='6' height='20' rx='3' fill='%23fff'/%3E%3Crect x='10' y='17' width='20' height='6' rx='3' fill='%23fff'/%3E%3Ccircle cx='20' cy='20' r='2.6' fill='%23F6B13C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--teal-700:#075E66;--teal-600:#0A7480;--teal-500:#0E8C99;--teal-300:#6CCBD1;--teal-50:#ECF8F9;--blue-600:#1D5FD6;--amber-400:#F6B13C;--amber-100:#FFF3DC;--ink:#0B2433;--ink-2:#34505F;--muted:#56707F;--line:#E2EBEF;--soft:#F5F9FA;--danger:#C2362B;--font:"Plus Jakarta Sans",Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--font);color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--teal-600);text-decoration:none}a:hover{color:var(--teal-700)}
+:focus-visible{outline:3px solid var(--amber-400);outline-offset:2px;border-radius:6px}
+.wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.art{display:none!important}}
+.art{background:linear-gradient(150deg,#0B2433 0%,#0A4E5C 60%,#0E8C99 100%);color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.art::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(246,177,60,.28),transparent 65%);right:-180px;top:-160px}
+.art h2{font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.2;letter-spacing:-.02em;margin:0 0 16px;max-width:460px;position:relative}
+.art p{color:#C8DCE3;max-width:440px;position:relative}
+.art ul{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px;position:relative}
+.art li{display:flex;gap:10px;align-items:center;font-weight:600}
+.art li span{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);display:grid;place-items:center;color:var(--amber-400)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:inherit;position:relative}
+.brand svg{width:38px;height:38px;flex:none}
+.brand .wm-light{font-weight:500;color:var(--teal-600)}
+.art .brand .wm-light{color:var(--teal-300)}
+.panel{display:flex;align-items:center;justify-content:center;padding:40px 16px}
+.box{width:100%;max-width:420px}
+.box h1{font-size:1.9rem;letter-spacing:-.02em;margin:24px 0 6px}
+.box .sub{color:var(--muted);margin:0 0 24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:700;font-size:.88rem;margin-bottom:6px}
+.field input{width:100%;padding:12px 14px;border:1.5px solid #CBD8DE;border-radius:12px;font:inherit;font-size:.95rem;min-height:48px;transition:border-color .2s,box-shadow .2s}
+.field input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 4px rgba(14,140,153,.15)}
+.pw{position:relative}
+.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--teal-600);font:inherit;font-weight:700;font-size:.82rem;cursor:pointer;padding:6px 8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 22px;border-radius:999px;font:inherit;font-weight:700;border:0;cursor:pointer;background:var(--teal-600);color:#fff;box-shadow:0 6px 18px rgba(10,116,128,.28);transition:background .2s}
+.btn:hover{background:var(--teal-700)}
+.btn:disabled{opacity:.7;cursor:progress}
+.error{background:#FDECEA;color:var(--danger);border-radius:12px;padding:10px 14px;font-weight:600;font-size:.9rem;margin-bottom:16px}
+.notice{background:var(--amber-100);border:1px dashed var(--amber-400);color:#6B4100;border-radius:12px;padding:14px 16px;font-size:.9rem;margin-bottom:20px}
+.notice code{background:#fff;padding:1px 6px;border-radius:6px;font-size:.85rem}
+.demo{margin-top:28px;border-top:1px solid var(--line);padding-top:20px}
+.demo p{font-size:.82rem;color:var(--muted);margin:0 0 10px;font-weight:600}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.demo-grid button{border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:10px 12px;text-align:left;cursor:pointer;font:inherit;transition:border-color .2s,background .2s}
+.demo-grid button:hover{border-color:var(--teal-500);background:var(--teal-50)}
+.demo-grid b{display:block;font-size:.88rem}
+.demo-grid small{color:var(--muted);font-size:.74rem}
+.back{display:inline-flex;gap:6px;align-items:center;font-weight:600;font-size:.9rem;margin-top:24px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs><linearGradient id="lumina-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14A3A8"/><stop offset="1" stop-color="#1D5FD6"/></linearGradient></defs>
+  <symbol id="logo-mark" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="17" fill="url(#lumina-g)"/>
+    <path d="M28 2.8A19 19 0 0 1 38.3 15.1" fill="none" stroke="#F6B13C" stroke-width="2.6" stroke-linecap="round"/>
+    <rect x="17" y="10" width="6" height="20" rx="3" fill="#fff"/>
+    <rect x="10" y="17" width="20" height="6" rx="3" fill="#fff"/>
+    <circle cx="20" cy="20" r="2.6" fill="#F6B13C"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <aside class="art" aria-hidden="true">
+    <a class="brand" href="index.html" tabindex="-1"><svg><use href="#logo-mark"/></svg><span>Lumina<span class="wm-light">Health</span></span></a>
+    <div>
+      <h2>One login for your whole care team.</h2>
+      <p>Admins, doctors, nurses, front-desk staff and patients each get a workspace designed for what they do.</p>
+      <ul>
+        <li><span>✓</span>Doctors: queue, prescriptions &amp; patient history</li>
+        <li><span>✓</span>Nurses: BP, pulse, sugar &amp; other vitals</li>
+        <li><span>✓</span>Reception: registrations, bookings &amp; receipts</li>
+        <li><span>✓</span>Admin: users, leads &amp; practice overview</li>
+        <li><span>✓</span>Patients: appointments, prescriptions &amp; bills</li>
+      </ul>
+    </div>
+    <p style="font-size:.85rem;margin:0">© 2026 Lumina Health. All rights reserved to <a href="https://www.shabihub.com/" style="color:#fff">ShabiHub</a>.</p>
+  </aside>
+
+  <main class="panel" id="main">
+    <div class="box">
+      <a class="brand" href="index.html" aria-label="Lumina Health home"><svg aria-hidden="true"><use href="#logo-mark"/></svg><span>Lumina<span class="wm-light">Health</span></span></a>
+      <h1>Welcome back</h1>
+      <p class="sub">Log in to your Lumina Health account.</p>
+
+      <div class="notice" id="demo-notice" hidden>
+        <b>Demo mode.</b> Data is saved in this browser only. To save to the real database, double-click <code>start.bat</code> and open <code>http://localhost:3000/login.html</code>.
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="error" id="err" role="alert" hidden></div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="username" required placeholder="you@clinic.in">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="pw">
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Your password">
+            <button type="button" id="toggle-pw" aria-controls="password" aria-pressed="false">Show</button>
+          </div>
+        </div>
+        <button class="btn" type="submit" id="submit">Log in</button>
+      </form>
+
+      <div class="demo">
+        <p>Demo accounts (remove before going live). Click one to fill in the form:</p>
+        <div class="demo-grid">
+          <button type="button" data-email="admin@lumina.local" data-pw="Admin@123"><b>Admin</b><small>admin@lumina.local</small></button>
+          <button type="button" data-email="doctor@lumina.local" data-pw="Doctor@123"><b>Doctor</b><small>doctor@lumina.local</small></button>
+          <button type="button" data-email="nurse@lumina.local" data-pw="Nurse@123"><b>Nurse</b><small>nurse@lumina.local</small></button>
+          <button type="button" data-email="reception@lumina.local" data-pw="Reception@123"><b>Reception</b><small>reception@lumina.local</small></button>
+          <button type="button" data-email="patient@lumina.local" data-pw="Patient@123" style="grid-column:1/-1"><b>Patient</b><small>patient@lumina.local</small></button>
+        </div>
+      </div>
+      <a class="back" href="index.html">← Back to website</a>
+    </div>
+  </main>
+</div>
+
+<script src="lumina-core.js" charset="utf-8"></script>
+<script>
+(function(){
+  "use strict";
+  var form=document.getElementById("login-form"),err=document.getElementById("err"),btn=document.getElementById("submit");
+  var email=document.getElementById("email"),pw=document.getElementById("password");
+  var api=LuminaCore.client();
+  api.mode().then(function(m){if(m==="demo")document.getElementById("demo-notice").hidden=false});
+  api.request("GET","/api/me").then(function(){location.replace("app.html")}).catch(function(){});
+
+  document.getElementById("toggle-pw").addEventListener("click",function(){
+    var show=pw.type==="password";pw.type=show?"text":"password";this.textContent=show?"Hide":"Show";this.setAttribute("aria-pressed",show);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-email]"),function(b){
+    b.addEventListener("click",function(){email.value=b.dataset.email;pw.value=b.dataset.pw;btn.focus()});
+  });
+  function showErr(m){err.textContent=m;err.hidden=false}
+  form.addEventListener("submit",function(e){
+    e.preventDefault();err.hidden=true;
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())){showErr("Please enter a valid email address.");email.focus();return}
+    if(!pw.value){showErr("Please enter your password.");pw.focus();return}
+    btn.disabled=true;btn.textContent="Logging in…";
+    api.request("POST","/api/login",{email:email.value.trim(),password:pw.value})
+      .then(function(){location.replace("app.html")})
+      .catch(function(x){showErr(x.message==="Failed to fetch"?"Can't reach the server. Is start.bat still running?":x.message);btn.disabled=false;btn.textContent="Log in"});
+  });
+})();
+</script>
+</body>
+</html>
