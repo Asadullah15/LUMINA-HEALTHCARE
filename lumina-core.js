@@ -30,164 +30,207 @@
   var cleanPhone = function (v) { return str(v, 20).replace(/[\s\-()]/g, "").replace(/^(\+91|0091|91(?=\d{10}$)|0(?=\d{10}$))/, ""); };
   var clone = function (x) { return JSON.parse(JSON.stringify(x)); };
 
-  var ROLES = ["admin", "doctor", "nurse", "reception", "patient"];
+  var ROLES = ["admin", "doctor", "nurse", "reception", "pharmacy", "patient"];
   var STAFF = ["admin", "doctor", "nurse", "reception"];
+  var VIEW_PATIENTS = STAFF.concat(["pharmacy"]);
+
+  /* Clinic profiles used for sample data. The real clinic details for Skin Shine come from the clinic;
+     sample patients are fictional. Admins can change all clinic details later in Clinic settings. */
+  var DEFAULT_PROFILE = "skinshine";
+  var PROFILES = {
+    skinshine: {
+      adminName: "Clinic Admin",
+      doctor: { name: "Dr. Syed Yousuf Ali", qualification: "MBBS, MD (DVL)", specialty: "Dermatologist & Cosmetologist \u00b7 20+ years", regNo: "[Add registration no.]", phone: "9052446842" },
+      settings: {
+        clinicName: "Skin Shine", tagline: "Advanced Clinic for Skin, Hair & Nail",
+        address: "Door No. 13-6-43/3, 1st Floor, Opp. Pillar No. 100, Moghal Nagar, Attapur Chowrasta, Gudimalkapur, Mehdipatnam, Hyderabad, Telangana 500008",
+        phone: "+91 90524 46842", email: "", timings: "Mon\u2013Sat, 3:00 PM \u2013 5:00 PM",
+        openTime: "15:00", closeTime: "17:00", slotMinutes: 10, consultFee: 500, closedDays: [0],
+        rxNote: "Consultation valid for 1 week (1 visit + 1 review). Please bring this prescription on your next visit.",
+      },
+    },
+    demo: {
+      adminName: "Asha Menon",
+      doctor: { name: "Dr. Meera Rao", qualification: "MBBS, MD (DVL)", specialty: "Dermatologist & Cosmetologist", regNo: "TSMC 00000 (dummy)", phone: "9000000100" },
+      settings: {
+        clinicName: "ShabiHub Demo Clinic", tagline: "Skin, Hair & Nail Care",
+        address: "[Street address placeholder], Banjara Hills, Hyderabad 500034", phone: "040-0000 0000 (dummy)", email: "care@example.com",
+        timings: "Mon\u2013Sat, 10:00 AM \u2013 8:00 PM", openTime: "10:00", closeTime: "20:00", slotMinutes: 15, consultFee: 500, closedDays: [0],
+        rxNote: "Consultation valid for 1 week (1 visit + 1 review).",
+      },
+    },
+  };
   var APPT_STATUS = ["requested", "booked", "checked-in", "completed", "cancelled", "no-show"];
 
   function create(opts) {
     var hash = opts.hash, verify = opts.verify, rand = opts.rand;
     var newId = function (p) { return p + "_" + rand(5); };
 
-    /* ---------------- demo data ---------------- */
-    function seed() {
+    /* ---------------- demo data ----------------
+       seed(profile): "skinshine" = Skin Shine (real clinic details, fictional sample patients),
+                      "demo" = generic Lumina demo clinic with placeholder details. */
+    function seed(profileKey) {
+      var prof = PROFILES[profileKey] || PROFILES[DEFAULT_PROFILE];
       var u = function (name, email, role, pw, extra) { return Object.assign({ id: newId("u"), name: name, email: email, role: role, password: hash(pw), active: true, phone: "", createdAt: nowIso() }, extra || {}); };
-      var admin = u("Asha Menon", "admin@lumina.local", "admin", "Admin@123", { phone: "9000000001" });
-      var meera = u("Dr. Meera Rao", "doctor@lumina.local", "doctor", "Doctor@123", { specialty: "Diabetologist & Endocrinologist", qualification: "MBBS, MD, DM (Endocrinology)", regNo: "TSMC 00000 (dummy)", phone: "9000000100" });
-      var arvind = u("Dr. Arvind Shah", "arvind@lumina.local", "doctor", "Doctor@123", { specialty: "Paediatrician", qualification: "MBBS, DCH, DNB (Paediatrics)", regNo: "TSMC 00001 (dummy)", phone: "9000000101" });
-      var farah = u("Dr. Farah Khan", "farah@lumina.local", "doctor", "Doctor@123", { specialty: "Obstetrician & Gynaecologist", qualification: "MBBS, MS (OBG)", regNo: "TSMC 00002 (dummy)", phone: "9000000102" });
-      var nurse = u("Sr. Lakshmi Priya", "nurse@lumina.local", "nurse", "Nurse@123", { phone: "9000000200" });
-      var rec = u("Kavya Reddy", "reception@lumina.local", "reception", "Reception@123", { phone: "9000000300" });
+      var admin = u(prof.adminName, "admin@shabihub.local", "admin", "Admin@123", { phone: "9000000001" });
+      var doc = u(prof.doctor.name, "doctor@shabihub.local", "doctor", "Doctor@123", { specialty: prof.doctor.specialty, qualification: prof.doctor.qualification, regNo: prof.doctor.regNo, phone: prof.doctor.phone || "" });
+      var nurse = u("Sr. Lakshmi Priya", "nurse@shabihub.local", "nurse", "Nurse@123", { phone: "9000000200" });
+      var rec = u("Kavya Reddy", "reception@shabihub.local", "reception", "Reception@123", { phone: "9000000300" });
+      var pharm = u("Rahim Pasha", "pharmacy@shabihub.local", "pharmacy", "Pharmacy@123", { phone: "9000000400" });
 
       var P = function (uhid, name, age, gender, phone, city, blood, allergies, extra) {
-        return Object.assign({ id: "p_" + uhid, uhid: String(uhid), name: name, age: age, gender: gender, phone: phone, email: "", address: "[Address placeholder]", city: city, bloodGroup: blood, abha: "", emergencyContact: "", allergies: allergies, createdAt: nowIso() }, extra || {});
+        return Object.assign({ id: "p_" + uhid, uhid: String(uhid), name: name, age: age, gender: gender, phone: phone, email: "", address: "[Address]", city: city, bloodGroup: blood, abha: "", emergencyContact: "", allergies: allergies, createdAt: new Date(Date.now() - (26000 - uhid) * 36e5).toISOString() }, extra || {});
       };
       var patients = [
-        P(25001, "Arjun Kumar", 42, "Male", "9876500001", "Hyderabad", "B+", "None known"),
-        P(25002, "Priya Sharma", 31, "Female", "9876500002", "Secunderabad", "O+", "Penicillin"),
-        P(25003, "Rahul Nair", 8, "Male", "9876500003", "Hyderabad", "A+", "None known", { emergencyContact: "Anil Nair (father) 9876500033" }),
-        P(25004, "Sunita Reddy", 56, "Female", "9876500004", "Kukatpally", "B+", "Sulfa drugs"),
-        P(25005, "Mohammed Irfan", 39, "Male", "9876500005", "Tolichowki", "O+", "None known"),
-        P(25006, "Lakshmi Devi", 64, "Female", "9876500006", "Warangal", "AB+", "None known"),
-        P(25007, "Vikram Patel", 47, "Male", "9876500007", "Madhapur", "A-", "Aspirin"),
+        P(25001, "Arjun Kumar", 42, "Male", "9876500001", "Mehdipatnam", "B+", "None known"),
+        P(25002, "Priya Sharma", 24, "Female", "9876500002", "Tolichowki", "O+", "Penicillin"),
+        P(25003, "Rahul Nair", 8, "Male", "9876500003", "Attapur", "A+", "None known", { emergencyContact: "Anil Nair (father) 9876500033" }),
+        P(25004, "Sunita Reddy", 56, "Female", "9876500004", "Rajendranagar", "B+", "Sulfa drugs"),
+        P(25005, "Mohammed Irfan", 19, "Male", "9876500005", "Moghal Nagar", "O+", "None known"),
+        P(25006, "Lakshmi Devi", 64, "Female", "9876500006", "Langar Houz", "AB+", "None known"),
+        P(25007, "Vikram Patel", 47, "Male", "9876500007", "Masab Tank", "A-", "Aspirin"),
         P(25008, "Ananya Iyer", 27, "Female", "9876500008", "Gachibowli", "O-", "None known"),
-        P(25009, "Sai Teja", 22, "Male", "9876500009", "Hyderabad", "B-", "None known"),
+        P(25009, "Sai Teja", 22, "Male", "9876500009", "Kishanbagh", "B-", "None known"),
         P(25010, "Fatima Begum", 51, "Female", "9876500010", "Mehdipatnam", "A+", "None known"),
-        P(25011, "Ramesh Gupta", 60, "Male", "9876500011", "Ameerpet", "O+", "Iodine contrast"),
-        P(25012, "Kavitha Rao", 35, "Female", "9876500012", "Kondapur", "B+", "None known"),
+        P(25011, "Ramesh Gupta", 60, "Male", "9876500011", "Attapur", "O+", "Iodine"),
+        P(25012, "Kavitha Rao", 35, "Female", "9876500012", "Gudimalkapur", "B+", "None known"),
       ];
-      var pat = u("Arjun Kumar", "patient@lumina.local", "patient", "Patient@123", { patientId: "p_25001", phone: "9876500001" });
+      var pat = u("Arjun Kumar", "patient@shabihub.local", "patient", "Patient@123", { patientId: "p_25001", phone: "9876500001" });
+
+      // appointment times inside the clinic's opening hours
+      var open = prof.settings.openTime.split(":"), step = prof.settings.slotMinutes;
+      var slot = function (i) { var m = (+open[0]) * 60 + (+open[1]) + i * step; return pad(Math.floor(m / 60)) + ":" + pad(m % 60); };
 
       var appointments = [], vitals = [], prescriptions = [], invoices = [];
-      var A = function (pid, doc, day, time, status, type, reason, vitalsDone) {
-        var a = { id: newId("a"), patientId: pid, doctorId: doc.id, date: dayOffset(day), time: time, status: status, type: type || "In-clinic", reason: reason || "", vitalsDone: !!vitalsDone, createdAt: nowIso() };
+      var A = function (pid, day, i, status, type, reason) {
+        var a = { id: newId("a"), patientId: pid, doctorId: doc.id, date: dayOffset(day), time: slot(i), status: status, type: type || "In-clinic", reason: reason || "", vitalsDone: false, createdAt: nowIso() };
         appointments.push(a); return a;
       };
       var V = function (a, v) {
-        var rec = Object.assign({ id: newId("v"), patientId: a.patientId, appointmentId: a.id, date: a.date, time: a.time, bpSys: null, bpDia: null, pulse: null, temp: null, spo2: null, resp: null, height: null, weight: null, bmi: null, sugar: null, sugarType: "RBS", notes: "", recordedBy: nurse.id, createdAt: nowIso() }, v);
-        if (rec.height && rec.weight) rec.bmi = Math.round(rec.weight / Math.pow(rec.height / 100, 2) * 100) / 100;
-        vitals.push(rec); a.vitalsDone = true; return rec;
+        var r = Object.assign({ id: newId("v"), patientId: a.patientId, appointmentId: a.id, date: a.date, time: a.time, bpSys: null, bpDia: null, pulse: null, temp: null, spo2: null, resp: null, height: null, weight: null, bmi: null, sugar: null, sugarType: "RBS", notes: "", recordedBy: nurse.id, createdAt: nowIso() }, v);
+        if (r.height && r.weight) r.bmi = Math.round(r.weight / Math.pow(r.height / 100, 2) * 100) / 100;
+        vitals.push(r); a.vitalsDone = true; return r;
       };
       var counters = { uhid: 25012, invoice: 1000, rx: 3000 };
-      var R = function (a, doc, data) {
+      var R = function (a, data) {
         var v = vitals.filter(function (x) { return x.appointmentId === a.id; })[0] || null;
         var rx = Object.assign({ id: newId("rx"), number: "RX-" + (++counters.rx), patientId: a.patientId, doctorId: doc.id, appointmentId: a.id, date: a.date, time: a.time, vitals: v ? clone(v) : null, complaints: "", examination: "", diagnosis: "", diet: "", medicines: [], advice: "", tests: "", testsAfter: "", followUp: "", createdAt: nowIso() }, data);
         prescriptions.push(rx); return rx;
       };
       var I = function (pid, day, time, items, status, mode, discount) {
         var sub = items.reduce(function (s, i) { return s + i.amount; }, 0);
-        var inv = { id: newId("inv"), number: "LH-" + (++counters.invoice), patientId: pid, date: dayOffset(day), time: time, items: items, discount: discount || 0, total: sub - (discount || 0), status: status, mode: status === "paid" ? mode : "", receivedBy: rec.id, createdAt: nowIso() };
+        var date = dayOffset(day);
+        var inv = { id: newId("inv"), number: "SS-" + (++counters.invoice), patientId: pid, date: date, time: time, items: items, discount: discount || 0, total: sub - (discount || 0), status: status, mode: status === "paid" ? mode : "", receivedBy: rec.id, paidAt: status === "paid" ? new Date(date + "T" + time + ":00").toISOString() : "", createdAt: nowIso() };
         invoices.push(inv); return inv;
       };
       var M = function (name, composition, dosage, timing, frequency, duration, notes) { return { name: name, composition: composition, dosage: dosage, timing: timing, frequency: frequency, duration: duration, notes: notes || "" }; };
+      var fee = prof.settings.consultFee, consult = function (label) { return { description: (label || "Consultation") + " - " + doc.name, amount: label === "Review" ? Math.round(fee * 0.6) : fee }; };
 
-      // ---- past visits (completed) ----
-      var a1 = A("p_25005", meera, -4, "21:00", "completed", "In-clinic", "Diabetes review");
-      V(a1, { bpSys: 119, bpDia: 75, pulse: 87, height: 175.5, weight: 78.5, sugar: 212, sugarType: "RBS", spo2: 98, temp: 98.4 });
-      R(a1, meera, {
-        complaints: "T2DM, uncontrolled blood glucose, vitamin D deficiency\nIrregular follow-up\nInsomnia",
-        examination: "No goitre\nNo pallor", diagnosis: "T2DM, uncontrolled BG, Vit D deficiency", diet: "1500 kcal diabetic diet\n45 min physical activity daily",
+      // ---- past visits ----
+      var a1 = A("p_25005", -4, 2, "completed", "In-clinic", "Pimples on face for 6 months");
+      V(a1, { bpSys: 118, bpDia: 76, pulse: 82, height: 172, weight: 64, spo2: 99 });
+      R(a1, { complaints: "Pimples and blackheads on face and back x 6 months\nOily skin, picks at lesions", examination: "Comedones, papules and few pustules over cheeks and forehead\nPost-inflammatory hyperpigmentation", diagnosis: "Acne vulgaris (grade II) with PIH", diet: "Avoid oily, fried food and whey protein. Drink 3 litres of water daily",
         medicines: [
-          M("Tab. Glycomet GP 1 Forte", "Metformin 1000 mg + Glimepiride 1 mg", "1-0-1", "Before food", "Daily", "2 Months", "1 before breakfast, 1 before dinner"),
-          M("Tab. Januvia 100", "Sitagliptin 100 mg", "1-0-0", "After food", "Daily", "2 Months", "After breakfast"),
-          M("Tab. Rosuvas 10", "Rosuvastatin 10 mg", "0-0-1", "Bed time", "Daily", "2 Months", ""),
-          M("Cap. Uprise D3 60K", "Cholecalciferol 60000 IU", "1-0-0", "Empty stomach", "Weekly", "8 Weeks", "Then once a month for 8 months, with milk"),
-          M("Tab. Melatonin 3 mg", "Melatonin 3 mg", "0-0-1", "Bed time", "Daily", "1 Month", ""),
-        ],
-        advice: "Hypoglycaemia symptoms and precautions explained.\nBP monitoring advised once a week.\nMaintain a self-monitored blood glucose chart (4-point profile) once a week.",
-        tests: "Fasting blood glucose, post-breakfast blood glucose, HbA1c", testsAfter: "2 Months", followUp: dayOffset(56),
-      });
-      I("p_25005", -4, "21:20", [{ description: "Consultation \u2014 Dr. Meera Rao", amount: 800 }, { description: "RBS (glucometer)", amount: 100 }], "paid", "UPI");
+          M("Cap. Doxt-SL 100", "Doxycycline 100 mg", "0-0-1", "After food", "Daily", "6 Weeks", "Do not lie down for 30 min after the tablet"),
+          M("Gel Adaferin", "Adapalene 0.1%", "0-0-1", "Apply locally", "Daily", "2 Months", "Pea-sized amount on whole face at night"),
+          M("Gel Clindac A", "Clindamycin 1%", "1-0-0", "Apply locally", "Daily", "6 Weeks", "On pimples only"),
+          M("Face wash Saslic DS", "Salicylic acid 2% face wash", "1-0-1", "Apply locally", "Daily", "2 Months"),
+          M("Lotion Suncros SPF 50", "Sunscreen SPF 50", "1-1-0", "Apply locally", "Daily", "3 Months", "Reapply every 3 hours outdoors"),
+        ], advice: "Do not squeeze or pick pimples. Mild redness and peeling in the first 2 weeks is expected.", followUp: dayOffset(24) });
+      I("p_25005", -4, slot(3), [consult()], "paid", "UPI");
 
-      var a2 = A("p_25004", meera, -7, "11:00", "completed", "In-clinic", "Sugar & BP review");
-      V(a2, { bpSys: 142, bpDia: 90, pulse: 80, height: 158, weight: 69, sugar: 168, sugarType: "FBS", spo2: 97 });
-      R(a2, meera, {
-        complaints: "Known T2DM & HTN, on treatment\nOccasional giddiness", examination: "Pedal oedema absent", diagnosis: "Type 2 DM, Hypertension",
-        diet: "Low salt, low sugar diet. Walk 30 min daily",
+      var a2 = A("p_25004", -7, 1, "completed", "In-clinic", "Itchy red patches on waist");
+      V(a2, { bpSys: 142, bpDia: 90, pulse: 80, height: 158, weight: 69, sugar: 168, sugarType: "RBS", spo2: 97 });
+      R(a2, { complaints: "Itchy ring-like red patches on waist and thighs x 2 months\nUsed steroid creams from pharmacy", examination: "Annular scaly plaques with active border over waist and groin", diagnosis: "Tinea corporis et cruris", diet: "",
         medicines: [
-          M("Tab. Amaryl 1", "Glimepiride 1 mg", "1-0-0", "Before food", "Daily", "1 Month"),
-          M("Tab. Telma 40", "Telmisartan 40 mg", "1-0-0", "After food", "Daily", "1 Month"),
-          M("Tab. Ecosprin 75", "Aspirin 75 mg", "0-1-0", "After food", "Daily", "1 Month"),
-        ],
-        advice: "Check BP at home twice a week. Avoid skipping meals.", tests: "HbA1c, lipid profile, serum creatinine", testsAfter: "1 Month", followUp: dayOffset(23),
-      });
-      I("p_25004", -7, "11:25", [{ description: "Consultation \u2014 Dr. Meera Rao", amount: 800 }, { description: "ECG", amount: 350 }], "paid", "Cash");
+          M("Cap. Itaspor 200", "Itraconazole 200 mg", "1-0-0", "After food", "Daily", "3 Weeks"),
+          M("Cream Lulifin", "Luliconazole 1%", "1-0-1", "Apply locally", "Daily", "4 Weeks", "Apply 2 cm beyond the patch"),
+          M("Tab. Levocet 5", "Levocetirizine 5 mg", "0-0-1", "After food", "Daily", "10 Days"),
+        ], advice: "Stop all steroid creams. Keep the area dry, wear loose cotton clothes, use a separate towel and wash clothes in hot water.", tests: "FBS, PPBS", followUp: dayOffset(14) });
+      I("p_25004", -7, slot(2), [consult()], "paid", "Cash");
 
-      var a3 = A("p_25003", arvind, -2, "17:30", "completed", "In-clinic", "Fever 2 days");
-      V(a3, { temp: 101.2, pulse: 104, weight: 24, height: 126, spo2: 98, resp: 22 });
-      R(a3, arvind, {
-        complaints: "Fever x 2 days, mild cough, reduced appetite", examination: "Throat congested, chest clear", diagnosis: "Acute viral fever with URTI",
-        diet: "Plenty of fluids, soft diet",
+      var a3 = A("p_25008", -6, 4, "completed", "In-clinic", "Hair fall x 4 months");
+      V(a3, { bpSys: 110, bpDia: 70, pulse: 78, height: 162, weight: 54 });
+      R(a3, { complaints: "Diffuse hair fall x 4 months, widening of hair partition\nRecent crash dieting", examination: "Widened central partition, positive hair pull test", diagnosis: "Female pattern hair loss with telogen effluvium", diet: "Protein-rich diet: eggs, dal, paneer, sprouts. Avoid crash diets",
         medicines: [
-          M("Syp. Calpol 250", "Paracetamol 250 mg/5 ml", "5ml-5ml-5ml", "After food", "SOS", "3 Days", "Only if temperature above 100\u00b0F"),
-          M("Syp. Ascoril D Junior", "Dextromethorphan + Chlorpheniramine", "2.5ml-0-2.5ml", "After food", "Daily", "5 Days"),
-        ],
-        advice: "Tepid sponging for high fever. Return if fever persists beyond 3 days or breathing difficulty.", followUp: dayOffset(3),
-      });
-      I("p_25003", -2, "17:50", [{ description: "Consultation \u2014 Dr. Arvind Shah", amount: 600 }], "paid", "UPI");
+          M("Solution Mintop 5%", "Minoxidil 5%", "0-0-1", "Apply locally", "Daily", "3 Months", "1 ml on dry scalp, do not wash for 4 hours"),
+          M("Tab. Follihair", "Biotin + multivitamins", "1-0-0", "After food", "Daily", "3 Months"),
+          M("Shampoo Scalpe Plus", "Ketoconazole + Zinc pyrithione", "1-0-0", "Apply locally", "Twice a week", "1 Month"),
+        ], advice: "Hair fall may increase for the first 4-6 weeks of minoxidil; this is temporary. PRP sessions advised every 4 weeks.", tests: "CBC, Serum ferritin, TSH, Vitamin D3", testsAfter: "1 Week", followUp: dayOffset(22) });
+      I("p_25008", -6, slot(6), [consult(), { description: "PRP therapy for hair (session 1)", amount: 4000 }], "paid", "Card", 500);
 
-      var a4 = A("p_25008", farah, -1, "12:00", "completed", "In-clinic", "Antenatal check-up");
-      V(a4, { bpSys: 112, bpDia: 70, pulse: 84, weight: 61, height: 162, spo2: 99 });
-      R(a4, farah, {
-        complaints: "G1P0, 18 weeks gestation, routine visit", examination: "Fundal height corresponds to dates", diagnosis: "Normal pregnancy, 18 weeks",
-        diet: "Balanced diet with extra protein, 8\u201310 glasses of water",
+      var a4 = A("p_25006", -5, 0, "completed", "In-clinic", "Dry cracked itchy hands");
+      R(a4, { complaints: "Dry, cracked, itchy palms x 1 year. Worse after washing utensils", examination: "Dry scaly fissured plaques over both palms", diagnosis: "Hand eczema (chronic irritant dermatitis)",
         medicines: [
-          M("Tab. Folvite 5", "Folic acid 5 mg", "1-0-0", "After food", "Daily", "1 Month"),
-          M("Tab. Shelcal 500", "Calcium 500 mg + Vitamin D3", "0-1-0", "After food", "Daily", "1 Month"),
-          M("Tab. Orofer XT", "Ferrous ascorbate + Folic acid", "0-0-1", "After food", "Daily", "1 Month"),
-        ],
-        advice: "Anomaly scan due. Report any bleeding or reduced fetal movements immediately.", tests: "Anomaly scan (level II), CBC", testsAfter: "2 Weeks", followUp: dayOffset(27),
-      });
-      I("p_25008", -1, "12:20", [{ description: "Consultation \u2014 Dr. Farah Khan", amount: 900 }], "paid", "Card");
+          M("Cream Momate", "Mometasone 0.1%", "0-0-1", "Apply locally", "Daily", "2 Weeks", "Thin layer on palms only"),
+          M("Lotion Cetaphil Moisturising", "Moisturising lotion", "1-1-1", "Apply locally", "Daily", "1 Month", "After every hand wash"),
+          M("Tab. Atarax 10", "Hydroxyzine 10 mg", "0-0-1", "After food", "SOS", "7 Days", "For itching at night; may cause drowsiness"),
+        ], advice: "Wear cotton-lined rubber gloves for washing. Avoid detergents and soaps directly on hands.", followUp: dayOffset(9) });
+      I("p_25006", -5, slot(1), [consult()], "paid", "UPI");
 
-      var a5 = A("p_25006", meera, -5, "10:30", "completed", "Video", "Thyroid review");
-      R(a5, meera, {
-        complaints: "Hypothyroidism on treatment, fatigue", diagnosis: "Primary hypothyroidism",
-        medicines: [M("Tab. Thyronorm 75", "Levothyroxine 75 mcg", "1-0-0", "Empty stomach", "Daily", "3 Months", "30 minutes before breakfast")],
-        advice: "Take tablet at the same time daily.", tests: "TSH", testsAfter: "6 Weeks", followUp: dayOffset(40),
-      });
-      I("p_25006", -5, "10:50", [{ description: "Video consultation \u2014 Dr. Meera Rao", amount: 600 }], "paid", "UPI");
-      I("p_25010", -3, "16:00", [{ description: "Consultation \u2014 Dr. Meera Rao", amount: 800 }, { description: "HbA1c", amount: 450 }], "paid", "UPI", 50);
-      I("p_25011", -6, "18:10", [{ description: "Consultation \u2014 Dr. Meera Rao", amount: 800 }], "paid", "Cash");
-      I("p_25012", -2, "19:00", [{ description: "Consultation \u2014 Dr. Farah Khan", amount: 900 }, { description: "Urine pregnancy test", amount: 150 }], "paid", "UPI");
+      var a5 = A("p_25003", -9, 5, "completed", "In-clinic", "Itching at night, whole family");
+      V(a5, { temp: 98.6, pulse: 96, weight: 24, height: 126 });
+      R(a5, { complaints: "Severe itching worse at night x 3 weeks. Siblings also itching", examination: "Excoriated papules over finger webs, wrists and waist", diagnosis: "Scabies",
+        medicines: [
+          M("Cream Permite", "Permethrin 5%", "0-0-1", "Apply locally", "Once", "1 Day", "Neck down at night, wash after 8-12 hours; repeat after 1 week"),
+          M("Syp. Levocet", "Levocetirizine 2.5 mg/5 ml", "0-0-5ml", "After food", "Daily", "7 Days"),
+        ], advice: "All family members must be treated on the same night. Wash clothes and bed sheets in hot water and dry in sunlight.", followUp: dayOffset(-2) });
+      I("p_25003", -9, slot(6), [consult()], "paid", "Cash");
+
+      var a6 = A("p_25001", -10, 3, "completed", "In-clinic", "Dandruff and flaking near eyebrows");
+      V(a6, { bpSys: 138, bpDia: 88, pulse: 80, height: 172, weight: 85, sugar: 204, sugarType: "RBS", spo2: 98, temp: 98.4 });
+      R(a6, { complaints: "Dandruff, itchy scalp and flaking over eyebrows and sides of nose x 3 months", examination: "Greasy scales over scalp, eyebrows and nasolabial folds", diagnosis: "Seborrhoeic dermatitis", diet: "Reduce sugar and fried food. Known diabetic: please get sugars checked",
+        medicines: [
+          M("Shampoo Nizral", "Ketoconazole 2%", "1-0-0", "Apply locally", "Twice a week", "4 Weeks", "Leave on scalp for 5 minutes before washing"),
+          M("Cream Lulifin", "Luliconazole 1%", "0-0-1", "Apply locally", "Daily", "2 Weeks", "Thin layer on eyebrows and sides of nose"),
+          M("Tab. Levocet 5", "Levocetirizine 5 mg", "0-0-1", "After food", "Daily", "10 Days"),
+        ], advice: "Avoid oiling the scalp. Condition may recur; repeat shampoo once a week after the course.", tests: "FBS, PPBS, HbA1c", testsAfter: "1 Week", followUp: dayOffset(0) });
+      I("p_25001", -10, slot(4), [consult()], "paid", "UPI");
+
+      var a7 = A("p_25007", -3, 2, "completed", "In-clinic", "Warts on fingers");
+      V(a7, { bpSys: 128, bpDia: 82, pulse: 76, weight: 78, height: 170 });
+      R(a7, { complaints: "Multiple rough growths on fingers x 1 year, increasing in number", examination: "Verrucous papules over right index and middle fingers", diagnosis: "Common warts (verruca vulgaris) - removed by RF cautery",
+        medicines: [
+          M("Cream Fucidin", "Fusidic acid 2%", "1-0-1", "Apply locally", "Daily", "7 Days", "On treated area until healed"),
+          M("Tab. Dolo 650", "Paracetamol 650 mg", "1-0-1", "After food", "SOS", "3 Days", "Only if pain"),
+        ], advice: "Keep the area dry for 24 hours. Do not pick scabs. Review after 2 weeks for any new warts.", followUp: dayOffset(11) });
+      I("p_25007", -3, slot(4), [consult(), { description: "Wart removal (RF cautery)", amount: 1500 }], "paid", "UPI");
+
+      I("p_25012", -2, slot(5), [consult(), { description: "Chemical peel (glycolic)", amount: 2500 }], "paid", "UPI");
+      I("p_25010", -1, slot(3), [consult("Review")], "paid", "Cash");
+      I("p_25011", -8, slot(2), [consult(), { description: "Nail surgery (partial nail avulsion)", amount: 3000 }], "paid", "Card");
+      I("p_25002", -12, slot(1), [consult()], "paid", "UPI");
 
       // ---- today ----
-      var t1 = A("p_25001", meera, 0, "10:15", "checked-in", "In-clinic", "Follow-up \u2014 sugar review", false);
+      var t0 = A("p_25011", 0, 0, "completed", "In-clinic", "Thick discoloured toenails");
+      V(t0, { bpSys: 130, bpDia: 84, pulse: 74, weight: 72, height: 168, sugar: 142, sugarType: "RBS" });
+      R(t0, { complaints: "Thick, yellow, crumbling big toenails x 1 year", examination: "Distal subungual onychomycosis of both great toenails", diagnosis: "Onychomycosis (toenails)",
+        medicines: [
+          M("Tab. Terbicip 250", "Terbinafine 250 mg", "1-0-0", "After food", "Daily", "3 Months"),
+          M("Lacquer Loceryl", "Amorolfine 5% nail lacquer", "1-0-0", "Apply locally", "Weekly", "6 Months", "File the nail surface before applying"),
+          M("Cream Lulifin", "Luliconazole 1%", "0-0-1", "Apply locally", "Daily", "1 Month", "Between the toes"),
+        ], advice: "Keep feet dry, wear cotton socks and change daily. Do not share footwear or nail cutters.", tests: "LFT", testsAfter: "1 Month", followUp: dayOffset(30) });
+      I("p_25011", 0, slot(1), [consult()], "paid", "UPI");
+      var t1 = A("p_25001", 0, 1, "checked-in", "In-clinic", "Review - dandruff better, new itchy rash on neck");
       V(t1, { bpSys: 134, bpDia: 86, pulse: 78, height: 172, weight: 84, sugar: 186, sugarType: "RBS", spo2: 98, temp: 98.2 });
-      A("p_25002", meera, 0, "10:30", "checked-in", "In-clinic", "Fever and body ache", false);
-      A("p_25007", meera, 0, "11:00", "booked", "In-clinic", "Thyroid & BP check");
-      A("p_25009", meera, 0, "11:30", "booked", "Video", "Acne & weight gain");
-      A("p_25003", arvind, 0, "17:00", "booked", "In-clinic", "Review after fever");
-      A("p_25012", farah, 0, "12:30", "checked-in", "In-clinic", "Irregular periods", false);
-      A("p_25010", meera, 0, "12:00", "requested", "In-clinic", "Diabetes follow-up");
-      A("p_25011", meera, 0, "09:30", "no-show", "In-clinic", "Review");
-      I("p_25001", 0, "10:05", [{ description: "Consultation \u2014 Dr. Meera Rao", amount: 800 }], "unpaid", "");
+      A("p_25002", 0, 2, "checked-in", "In-clinic", "Pimples and dark spots on cheeks");
+      A("p_25012", 0, 3, "checked-in", "In-clinic", "Brown patches on cheeks (melasma)");
+      A("p_25007", 0, 4, "booked", "In-clinic", "Review after wart removal");
+      A("p_25009", 0, 5, "booked", "Video", "Hair fall and dandruff");
+      A("p_25003", 0, 6, "booked", "In-clinic", "Review after scabies treatment");
+      A("p_25010", 0, 7, "requested", "In-clinic", "Itching all over body");
+      I("p_25001", 0, slot(1), [consult("Review")], "unpaid", "");
       // ---- upcoming ----
-      A("p_25001", meera, 3, "09:30", "booked", "In-clinic", "Lab review");
-      A("p_25004", meera, 5, "11:00", "booked", "In-clinic", "Monthly review");
-      A("p_25008", farah, 7, "12:00", "booked", "In-clinic", "Anomaly scan review");
+      A("p_25004", 2, 1, "booked", "In-clinic", "Fungal infection review");
+      A("p_25001", 3, 2, "booked", "In-clinic", "Lab report review");
+      A("p_25008", 7, 3, "booked", "In-clinic", "PRP session 2");
 
       return {
-        settings: {
-          clinicName: "Lumina Care Clinic", tagline: "Diabetes, Thyroid, Child & Women's Health",
-          address: "[Street address placeholder], Banjara Hills, Hyderabad 500034", phone: "040-0000 0000 (dummy)",
-          email: "care@luminahealth.in", timings: "Mon\u2013Sat, 10:00 AM \u2013 9:00 PM",
-          rxNote: "Consultation fee valid for 1 week or 1 visit + 1 review, whichever is earlier. For emergencies, contact the nearest hospital.",
-        },
-        users: [admin, meera, arvind, farah, nurse, rec, pat],
+        settings: clone(prof.settings),
+        users: [admin, doc, nurse, rec, pharm, pat],
         patients: patients, appointments: appointments, vitals: vitals, prescriptions: prescriptions, invoices: invoices,
         leads: [
-          { id: newId("l"), type: "demo", name: "Dr. Sample Lead", email: "sample@clinic.in", phone: "9876500999", specialty: "Cardiology", city: "Hyderabad", organisation: "", topic: "", message: "", page: "index.html", status: "new", createdAt: nowIso() },
-          { id: newId("l"), type: "contact", name: "City Care Hospital", email: "admin@citycare.example", phone: "9876500998", specialty: "", city: "", organisation: "Hospital", topic: "Pricing & plans", message: "We are a 60-bed hospital. Please share hospital plan pricing.", page: "contact.html", status: "contacted", createdAt: new Date(Date.now() - 86400e3).toISOString() },
+          { id: newId("l"), type: "demo", name: "Sample Website Visitor", email: "visitor@example.com", phone: "9876500999", specialty: "Dermatology", city: "Hyderabad", organisation: "", topic: "", message: "", page: "index.html", status: "new", createdAt: nowIso() },
         ],
         counters: counters,
       };
@@ -228,8 +271,14 @@
       return c.db.users.filter(function (u) { return u.role === "doctor" && u.active; }).map(function (u) { return { id: u.id, name: u.name, specialty: u.specialty || "", qualification: u.qualification || "" }; });
     });
     route("GET", "/api/settings", "any", function (c) { return c.db.settings; });
+    route("GET", "/api/clinic", null, function (c) { var s = c.db.settings; return { clinicName: s.clinicName, tagline: s.tagline, phone: s.phone, timings: s.timings }; });
     route("PUT", "/api/settings", ["admin"], function (c) {
-      ["clinicName", "tagline", "address", "phone", "email", "timings", "rxNote"].forEach(function (k) { if (c.body[k] !== undefined) c.db.settings[k] = str(c.body[k], k === "rxNote" ? 400 : 160); });
+      ["clinicName", "tagline", "address", "phone", "email", "timings", "rxNote"].forEach(function (k) { if (c.body[k] !== undefined) c.db.settings[k] = str(c.body[k], k === "rxNote" || k === "address" ? 400 : 160); });
+      if (c.body.openTime !== undefined) { if (!TIME_RE.test(c.body.openTime)) fail(400, "Invalid opening time"); c.db.settings.openTime = c.body.openTime; }
+      if (c.body.closeTime !== undefined) { if (!TIME_RE.test(c.body.closeTime)) fail(400, "Invalid closing time"); c.db.settings.closeTime = c.body.closeTime; }
+      if (c.db.settings.openTime && c.db.settings.closeTime && c.db.settings.openTime >= c.db.settings.closeTime) fail(400, "Closing time must be after opening time");
+      if (c.body.slotMinutes !== undefined) c.db.settings.slotMinutes = num(c.body.slotMinutes, 5, 120, "slot length") || 15;
+      if (c.body.consultFee !== undefined) c.db.settings.consultFee = num(c.body.consultFee, 0, 100000, "consultation fee") || 0;
       if (!c.db.settings.clinicName) fail(400, "Clinic name is required");
       return c.db.settings;
     });
@@ -320,12 +369,12 @@
       db.patients.push(p);
       return p;
     }
-    route("GET", "/api/patients", STAFF, function (c) { return c.db.patients.slice().sort(function (a, b) { return a.name.localeCompare(b.name); }); });
+    route("GET", "/api/patients", VIEW_PATIENTS, function (c) { return c.db.patients.slice().sort(function (a, b) { return a.name.localeCompare(b.name); }); });
     route("POST", "/api/patients", ["reception"], function (c) { return newPatient(c.db, c.body); });
     route("PUT", "/api/patients/:id", ["reception"], function (c) { var p = findOr404(c.db.patients, c.params.id, "Patient"); patientFields(p, c.body, false); return p; });
     route("GET", "/api/patients/:id", "any", function (c) {
       var me = c.me, db = c.db;
-      if (STAFF.indexOf(me.role) < 0 && !ownPatient(me, c.params.id)) fail(403, "You don't have access to this patient");
+      if (VIEW_PATIENTS.indexOf(me.role) < 0 && !ownPatient(me, c.params.id)) fail(403, "You don't have access to this patient");
       var p = findOr404(db.patients, c.params.id, "Patient");
       var mine = function (x) { return x.patientId === p.id; };
       var nm = function (x) { return names(db, x); };
@@ -333,13 +382,13 @@
       return Object.assign({}, p, {
         appointments: db.appointments.filter(mine).sort(byDateDesc).map(nm),
         vitals: ["admin", "doctor", "nurse", "patient"].indexOf(r) >= 0 ? db.vitals.filter(mine).sort(byDateDesc).map(nm) : [],
-        prescriptions: ["admin", "doctor", "patient"].indexOf(r) >= 0 ? db.prescriptions.filter(mine).sort(byDateDesc).map(nm) : [],
+        prescriptions: ["admin", "doctor", "pharmacy", "patient"].indexOf(r) >= 0 ? db.prescriptions.filter(mine).sort(byDateDesc).map(nm) : [],
         invoices: ["admin", "reception", "patient"].indexOf(r) >= 0 ? db.invoices.filter(mine).sort(byDateDesc).map(nm) : [],
       });
     });
 
     // ---- appointments ----
-    route("GET", "/api/appointments", "any", function (c) {
+    route("GET", "/api/appointments", ["admin", "doctor", "nurse", "reception", "patient"], function (c) {
       var me = c.me, list = c.db.appointments;
       if (me.role === "doctor") list = list.filter(function (a) { return a.doctorId === me.id; });
       if (me.role === "patient") list = list.filter(function (a) { return a.patientId === me.patientId; });
@@ -354,6 +403,11 @@
       var date = need(c.body.date, "Date", 10), time = need(c.body.time, "Time", 5);
       if (!DATE_RE.test(date) || !TIME_RE.test(time)) fail(400, "Please enter a valid date and time");
       if (date < today()) fail(400, "Appointments can't be booked in the past");
+      var st = db.settings || {};
+      if (st.openTime && st.closeTime && (time < st.openTime || time >= st.closeTime)) fail(400, "The clinic is open " + (st.timings || st.openTime + " to " + st.closeTime) + ". Please pick a time in that window.");
+      var closedDays = Array.isArray(st.closedDays) ? st.closedDays : [];
+      if (closedDays.indexOf(new Date(date + "T12:00:00").getDay()) >= 0) fail(400, "The clinic is closed on that day. Please pick another date.");
+      if (date === today() && time <= hm(new Date())) fail(400, "That time has already passed today. Please pick a later time or another day.");
       if (db.appointments.some(function (a) { return a.doctorId === doctor.id && a.date === date && a.time === time && ["cancelled", "no-show"].indexOf(a.status) < 0; }))
         fail(409, "That slot is already taken. Please pick another time.");
       var a = { id: newId("a"), patientId: patientId, doctorId: doctor.id, date: date, time: time, type: c.body.type === "Video" ? "Video" : "In-clinic", reason: str(c.body.reason, 200), status: me.role === "patient" ? "requested" : "booked", vitalsDone: false, createdAt: nowIso() };
@@ -416,8 +470,9 @@
     });
 
     // ---- prescriptions (doctor writes) ----
-    route("GET", "/api/prescriptions", ["admin", "doctor", "patient"], function (c) {
+    route("GET", "/api/prescriptions", ["admin", "doctor", "pharmacy", "patient"], function (c) {
       var me = c.me, list = c.db.prescriptions;
+      if (c.query.date) list = list.filter(function (r) { return r.date === c.query.date; });
       if (me.role === "patient") list = list.filter(function (r) { return r.patientId === me.patientId; });
       else if (c.query.patientId) list = list.filter(function (r) { return r.patientId === c.query.patientId; });
       else if (me.role === "doctor") list = list.filter(function (r) { return r.doctorId === me.id; });
@@ -465,23 +520,47 @@
       var discount = num(b.discount, 0, sub, "discount") || 0;
       db.counters = db.counters || { uhid: 25000, invoice: 1000, rx: 3000 };
       var d = new Date();
-      var inv = { id: newId("inv"), number: "LH-" + (++db.counters.invoice), patientId: patientId, date: ymd(d), time: hm(d), items: items, discount: discount, total: sub - discount, status: b.status === "paid" ? "paid" : "unpaid", mode: b.status === "paid" ? str(b.mode, 20) : "", receivedBy: c.me.id, createdAt: nowIso() };
+      // receipt numbers start with the clinic's initials, e.g. Skin Shine -> SS-1013
+      var prefix = String((db.settings && db.settings.clinicName) || "LH").split(/\s+/).map(function (w) { return w.charAt(0); }).join("").replace(/[^A-Za-z]/g, "").toUpperCase().slice(0, 3) || "LH";
+      var inv = { id: newId("inv"), number: prefix + "-" + (++db.counters.invoice), patientId: patientId, date: ymd(d), time: hm(d), items: items, discount: discount, total: sub - discount, status: b.status === "paid" ? "paid" : "unpaid", mode: b.status === "paid" ? str(b.mode, 20) : "", receivedBy: c.me.id, paidAt: b.status === "paid" ? nowIso() : "", createdAt: nowIso() };
       db.invoices.push(inv);
       return names(db, inv);
     });
     route("PUT", "/api/invoices/:id", ["reception"], function (c) {
       var inv = findOr404(c.db.invoices, c.params.id, "Receipt");
-      if (c.body.status !== undefined) inv.status = c.body.status === "paid" ? "paid" : "unpaid";
+      if (c.body.status !== undefined) { var was = inv.status; inv.status = c.body.status === "paid" ? "paid" : "unpaid"; if (inv.status === "paid" && was !== "paid") inv.paidAt = nowIso(); if (inv.status !== "paid") inv.paidAt = ""; }
       if (c.body.mode !== undefined) inv.mode = str(c.body.mode, 20);
       inv.receivedBy = c.me.id;
       return names(c.db, inv);
     });
 
+    // ---- report for the Excel sheet (patients, payments, visits) ----
+    route("GET", "/api/report", ["admin", "reception"], function (c) {
+      var db = c.db;
+      var byPatient = {};
+      db.patients.forEach(function (p) { byPatient[p.id] = { billed: 0, paid: 0, due: 0, visits: 0, lastVisit: "", lastPayment: "" }; });
+      db.invoices.forEach(function (i) { var s = byPatient[i.patientId]; if (!s) return; s.billed += i.total; if (i.status === "paid") { s.paid += i.total; var d = (i.paidAt || i.date).slice(0, 10); if (d > s.lastPayment) s.lastPayment = d; } else s.due += i.total; });
+      db.appointments.forEach(function (a) { var s = byPatient[a.patientId]; if (!s || a.status !== "completed") return; s.visits++; if (a.date > s.lastVisit) s.lastVisit = a.date; });
+      var patients = db.patients.slice().sort(function (a, b) { return a.uhid.localeCompare(b.uhid); }).map(function (p) {
+        var s = byPatient[p.id];
+        return { uhid: p.uhid, name: p.name, age: p.age, gender: p.gender, phone: p.phone, city: p.city, registered: (p.createdAt || "").slice(0, 10), visits: s.visits, lastVisit: s.lastVisit, billed: s.billed, paid: s.paid, due: s.due, lastPayment: s.lastPayment };
+      });
+      var payments = db.invoices.slice().sort(byDateDesc).map(function (i) {
+        var o = names(db, i), pt = db.patients.filter(function (p) { return p.id === i.patientId; })[0] || {};
+        return { date: i.date, time: i.time, number: i.number, uhid: o.patientUhid, name: o.patientName, phone: pt.phone || "", services: i.items.map(function (x) { return x.description; }).join(", "), amount: i.items.reduce(function (s, x) { return s + x.amount; }, 0), discount: i.discount || 0, total: i.total, mode: i.mode || "", status: i.status, paidAt: i.paidAt || "", receivedBy: o.receivedByName || "" };
+      });
+      var visits = db.appointments.slice().sort(byDateDesc).map(function (a) { var o = names(db, a); return { date: a.date, time: a.time, uhid: o.patientUhid, name: o.patientName, doctor: o.doctorName, type: a.type, reason: a.reason, status: a.status }; });
+      return { generatedAt: nowIso(), clinicName: db.settings.clinicName, patients: patients, payments: payments, visits: visits };
+    });
+
     // ---- website leads ----
     route("POST", "/api/leads", null, function (c) {
       var b = c.body;
-      var email = need(b.email, "Email", 120).toLowerCase(); if (!EMAIL_RE.test(email)) fail(400, "Please enter a valid email");
-      c.db.leads.push({ id: newId("l"), type: b.type === "contact" ? "contact" : "demo", name: need(b.name, "Name", 80), email: email, phone: cleanPhone(b.phone), specialty: str(b.specialty, 60), city: str(b.city, 60), organisation: str(b.organisation, 60), topic: str(b.topic, 60), message: str(b.message, 2000), page: str(b.page, 40), status: "new", createdAt: nowIso() });
+      // appointment requests from the clinic website need a phone number; email is optional for them
+      var email = str(b.email, 120).toLowerCase();
+      if (b.type === "appointment") { if (!PHONE_RE.test(cleanPhone(b.phone))) fail(400, "Please enter a valid 10-digit mobile number"); if (email && !EMAIL_RE.test(email)) fail(400, "Please enter a valid email"); }
+      else { email = need(b.email, "Email", 120).toLowerCase(); if (!EMAIL_RE.test(email)) fail(400, "Please enter a valid email"); }
+      c.db.leads.push({ id: newId("l"), type: ["contact", "appointment"].indexOf(b.type) >= 0 ? b.type : "demo", concern: str(b.concern, 80), preferredDate: DATE_RE.test(str(b.preferredDate, 10)) && str(b.preferredDate, 10) >= today() ? str(b.preferredDate, 10) : "", name: need(b.name, "Name", 80), email: email, phone: cleanPhone(b.phone), specialty: str(b.specialty, 60), city: str(b.city, 60), organisation: str(b.organisation, 60), topic: str(b.topic, 60), message: str(b.message, 2000), page: str(b.page, 40), status: "new", createdAt: nowIso() });
       return { ok: true };
     });
     route("GET", "/api/leads", ["admin"], function (c) { return c.db.leads.slice().sort(function (a, b) { return b.createdAt.localeCompare(a.createdAt); }); });
@@ -525,7 +604,7 @@
   /* =================== Browser client (server or demo mode) =================== */
   function client() {
     if (typeof window === "undefined") throw new Error("client() is browser-only");
-    var DB_KEY = "lumina-demo-db-v2", SESSION_KEY = "lumina-demo-session";
+    var DB_KEY = "lumina-demo-db-v4", SESSION_KEY = "lumina-demo-session";
     var modeP = null, core = null;
     function cyrb(s) { var h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (var i = 0; i < s.length; i++) { var ch = s.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); } h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909); return (h2 >>> 0).toString(16) + (h1 >>> 0).toString(16); }
     function rand(n) { var a = new Uint8Array(n); (window.crypto || window.msCrypto).getRandomValues(a); return Array.prototype.map.call(a, function (b) { return b.toString(16).padStart(2, "0"); }).join(""); }
@@ -540,7 +619,7 @@
     }
     function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
     var memDb = null, memSession = null; // fallback when storage is blocked
-    function loadDb() { var raw = store(DB_KEY); if (raw) { try { return JSON.parse(raw); } catch (e) { } } if (memDb) return memDb; var db = getCore().seed(); saveDb(db); return db; }
+    function loadDb() { var raw = store(DB_KEY); if (raw) { try { return JSON.parse(raw); } catch (e) { } } if (memDb) return memDb; var db = getCore().seed(window.LUMINA_PROFILE); saveDb(db); return db; }
     function saveDb(db) { memDb = db; store(DB_KEY, JSON.stringify(db)); }
     function detect() {
       if (location.protocol.indexOf("http") !== 0) return Promise.resolve("demo");

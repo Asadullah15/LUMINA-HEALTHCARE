@@ -1,5 +1,5 @@
 @echo off
-title Lumina Health server
+title Skin Shine server
 cd /d "%~dp0"
 where node >nul 2>nul
 if errorlevel 1 (

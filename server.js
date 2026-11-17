@@ -17,10 +17,12 @@ const ROOT = __dirname;
 const DB_FILE = path.join(ROOT, "data.json");
 // Only these files are served to browsers. data.json and server.js are never exposed.
 const FILES = {
-  "index.html": "text/html", "emr.html": "text/html", "pricing.html": "text/html", "contact.html": "text/html",
-  "login.html": "text/html", "app.html": "text/html", "lumina-core.js": "text/javascript",
+  "index.html": "text/html", "treatments.html": "text/html", "doctor.html": "text/html", "contact.html": "text/html",
+  "login.html": "text/html", "app.html": "text/html", "lumina-core.js": "text/javascript", "lumina-shared.js": "text/javascript",
 };
-const SESSION_HOURS = 12;
+// Sample data profile: "skinshine" (default) or "demo". Set LUMINA_PROFILE=demo for the generic demo clinic.
+const SESSION_HOURS = 12;        // website (cookie)
+const MOBILE_SESSION_DAYS = 30;  // mobile app (token)
 
 const core = Core.create({
   rand: (n) => crypto.randomBytes(n).toString("hex"),
@@ -35,32 +37,55 @@ const core = Core.create({
 
 /* ---------------- database ---------------- */
 let db;
-function save() { const tmp = DB_FILE + ".tmp"; fs.writeFileSync(tmp, JSON.stringify(db, null, 2)); fs.renameSync(tmp, DB_FILE); }
+// OneDrive/antivirus can lock data.json for a moment while syncing; retry instead of failing the request.
+const pause = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+function save() {
+  const json = JSON.stringify(db, null, 2), tmp = DB_FILE + ".tmp";
+  for (let i = 0; i < 8; i++) {
+    try { fs.writeFileSync(tmp, json); fs.renameSync(tmp, DB_FILE); return; }
+    catch (e) { if (!["EPERM", "EBUSY", "EACCES"].includes(e.code)) throw e; pause(60 * (i + 1)); }
+  }
+  fs.writeFileSync(DB_FILE, json); // last resort: write in place
+  try { fs.unlinkSync(tmp); } catch {}
+}
 function load() {
   if (fs.existsSync(DB_FILE)) {
     db = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
     if (!db.settings || !db.vitals) { // data.json from an older version: upgrade by re-seeding
       fs.renameSync(DB_FILE, DB_FILE.replace(/\.json$/, "-old-" + Date.now() + ".json"));
-      db = core.seed(); save(); return true;
+      db = core.seed(process.env.LUMINA_PROFILE); save(); return true;
     }
     return false;
   }
-  db = core.seed(); save(); return true;
+  db = core.seed(process.env.LUMINA_PROFILE); save(); return true;
 }
 
-/* ---------------- sessions & rate limits ---------------- */
-const sessions = new Map();
+/* ---------------- sessions & rate limits ----------------
+   Sessions are kept in data.json (db.sessions) so phones stay logged in after a restart.
+   Only a SHA-256 hash of each token is stored, never the token itself. */
+const tokenHash = (t) => crypto.createHash("sha256").update(String(t)).digest("hex");
 const parseCookies = (h) => { const o = {}; (h || "").split(";").forEach((p) => { const i = p.indexOf("="); if (i > 0) o[p.slice(0, i).trim()] = decodeURIComponent(p.slice(i + 1).trim()); }); return o; };
+function sessionsMap() { if (!db.sessions || typeof db.sessions !== "object") db.sessions = {}; return db.sessions; }
+function createSession(userId, kind) {
+  const token = crypto.randomBytes(32).toString("hex");
+  const ms = kind === "mobile" ? MOBILE_SESSION_DAYS * 864e5 : SESSION_HOURS * 3600e3;
+  const s = sessionsMap(), now = Date.now();
+  for (const [h, v] of Object.entries(s)) if (v.exp < now) delete s[h]; // tidy expired
+  s[tokenHash(token)] = { userId, exp: now + ms, kind };
+  return token;
+}
 function getAuth(req) {
-  const token = parseCookies(req.headers.cookie).lh_sid;
-  const s = token && sessions.get(token);
+  const bearer = /^Bearer\s+([a-f0-9]{64})$/i.exec(req.headers.authorization || "");
+  const token = bearer ? bearer[1] : parseCookies(req.headers.cookie).lh_sid;
+  if (!token) return null;
+  const s = sessionsMap()[tokenHash(token)];
   if (!s) return null;
-  if (s.exp < Date.now()) { sessions.delete(token); return null; }
+  if (s.exp < Date.now()) { delete sessionsMap()[tokenHash(token)]; return null; }
   const user = db.users.find((x) => x.id === s.userId && x.active);
   return user ? { user, token } : null;
 }
 const sessionCookie = (token, maxAge) => `lh_sid=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}`;
-const dropSessions = (userId, keep) => { for (const [t, s] of sessions) if (s.userId === userId && t !== keep) sessions.delete(t); };
+const dropSessions = (userId, keepToken) => { const s = sessionsMap(), keep = keepToken && tokenHash(keepToken); for (const [h, v] of Object.entries(s)) if (v.userId === userId && h !== keep) delete s[h]; };
 const buckets = new Map();
 function rateLimit(key, max, windowMs) {
   const n = Date.now();
@@ -99,14 +124,18 @@ async function handleApi(req, res, url) {
   if (p === "/api/login" && req.method === "POST") {
     rateLimit("login:" + ip, 10, 15 * 60e3);
     const user = core.login(db, body.email, body.password);
-    const token = crypto.randomBytes(32).toString("hex");
-    sessions.set(token, { userId: user.id, exp: Date.now() + SESSION_HOURS * 3600e3 });
+    if (body.client === "mobile") { // mobile app: token in the response, sent back as "Authorization: Bearer <token>"
+      const token = createSession(user.id, "mobile");
+      save();
+      return sendJson(res, 200, { user: core.pub(user), token });
+    }
+    const token = createSession(user.id, "web");
     save();
     res.setHeader("Set-Cookie", sessionCookie(token, SESSION_HOURS * 3600));
     return sendJson(res, 200, { user: core.pub(user) });
   }
   if (p === "/api/logout") {
-    if (auth) sessions.delete(auth.token);
+    if (auth) { delete sessionsMap()[tokenHash(auth.token)]; save(); }
     res.setHeader("Set-Cookie", sessionCookie("", 0));
     return sendJson(res, 200, { ok: true });
   }
@@ -116,9 +145,9 @@ async function handleApi(req, res, url) {
   try { out = core.handle(db, auth && auth.user, req.method, p, body, query); }
   catch (e) { if (req.method !== "GET") db = JSON.parse(fs.readFileSync(DB_FILE, "utf8")); throw e; } // undo any half-applied change
   if (req.method !== "GET") {
-    save();
     if (out.changedUser) dropSessions(out.changedUser, auth && auth.token); // log out a user whose account was changed/deleted
     if (p === "/api/me/password" && auth) dropSessions(auth.user.id, auth.token);
+    save();
   }
   sendJson(res, 200, out.data);
 }
@@ -135,7 +164,7 @@ const server = http.createServer(async (req, res) => {
     if (!name.includes(".")) name += ".html"; // /pricing -> pricing.html
     if (!FILES[name]) {
       res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
-      return res.end('<!doctype html><meta charset="utf-8"><title>Not found</title><body style="font-family:system-ui;padding:40px"><h1>Page not found</h1><p><a href="/">Back to Lumina Health</a></p>');
+      return res.end('<!doctype html><meta charset="utf-8"><title>Not found</title><body style="font-family:system-ui;padding:40px"><h1>Page not found</h1><p><a href="/">Back to the website</a></p>');
     }
     const content = fs.readFileSync(path.join(ROOT, name));
     res.writeHead(200, { "Content-Type": FILES[name] + "; charset=utf-8", "Cache-Control": "no-cache" });
@@ -153,14 +182,18 @@ server.on("error", (e) => {
   process.exit(1);
 });
 server.listen(PORT, () => {
-  console.log("\n  Lumina Health is running at  http://localhost:" + PORT);
-  console.log("  Login page:                   http://localhost:" + PORT + "/login.html\n");
+  console.log("\n  Skin Shine is running at  http://localhost:" + PORT);
+  console.log("  Login page:                   http://localhost:" + PORT + "/login.html");
+  const lan = Object.values(require("os").networkInterfaces()).flat().filter((i) => i && i.family === "IPv4" && !i.internal).map((i) => i.address);
+  if (lan.length) console.log("  Mobile app server address:    " + lan.map((ip) => "http://" + ip + ":" + PORT).join("  or  ") + "   (phone must be on the same Wi-Fi)");
+  console.log("");
   if (fresh) console.log("  Created data.json with demo data.\n");
   console.log("  Demo accounts (change these passwords before real use):");
-  console.log("    Admin      admin@lumina.local      Admin@123");
-  console.log("    Doctor     doctor@lumina.local     Doctor@123");
-  console.log("    Nurse      nurse@lumina.local      Nurse@123");
-  console.log("    Reception  reception@lumina.local  Reception@123");
-  console.log("    Patient    patient@lumina.local    Patient@123\n");
+  console.log("    Admin      admin@shabihub.local      Admin@123");
+  console.log("    Doctor     doctor@shabihub.local     Doctor@123");
+  console.log("    Nurse      nurse@shabihub.local      Nurse@123");
+  console.log("    Reception  reception@shabihub.local  Reception@123");
+  console.log("    Pharmacy   pharmacy@shabihub.local   Pharmacy@123");
+  console.log("    Patient    patient@shabihub.local    Patient@123\n");
   console.log("  Press Ctrl+C to stop.\n");
 });

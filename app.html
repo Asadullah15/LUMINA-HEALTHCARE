@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lumina Health App</title>
+<title>Skin Shine App</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2314A3A8'/%3E%3Cstop offset='1' stop-color='%231D5FD6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='20' cy='20' r='17' fill='url(%23g)'/%3E%3Cpath d='M28 2.8A19 19 0 0 1 38.3 15.1' fill='none' stroke='%23F6B13C' stroke-width='2.6' stroke-linecap='round'/%3E%3Crect x='17' y='10' width='6' height='20' rx='3' fill='%23fff'/%3E%3Crect x='10' y='17' width='20' height='6' rx='3' fill='%23fff'/%3E%3Ccircle cx='20' cy='20' r='2.6' fill='%23F6B13C'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23fff'/%3E%3Cpath d='M26.06 9.5A7 7 0 1 0 20 20' fill='none' stroke='%231E88D0' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M20 20A7 7 0 1 1 13.94 30.5' fill='none' stroke='%230F4C81' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --teal-800:#05505A;--teal-700:#075E66;--teal-600:#0A7480;--teal-500:#0E8C99;--teal-300:#6CCBD1;--teal-100:#D3F0F2;--teal-50:#ECF8F9;
+  --teal-800:#0B3F6B;--teal-700:#0F4C81;--teal-600:#1565A8;--teal-500:#1E88D0;--teal-300:#8CC3EC;--teal-100:#D6E8F7;--teal-50:#EEF5FC;
   --blue-700:#1747A6;--blue-600:#1D5FD6;--blue-100:#DCE7FC;--blue-50:#F0F5FF;--amber-500:#E8960F;--amber-400:#F6B13C;--amber-100:#FFF3DC;
   --violet-600:#6D4BD8;--violet-50:#F3EFFF;--rose-600:#D23F63;--rose-50:#FDEEF2;
   --ink:#0B2433;--ink-2:#34505F;--muted:#56707F;--line:#E2EBEF;--soft:#F5F9FA;--bg:#F1F6F7;
@@ -33,7 +33,7 @@ h1,h2,h3,h4{margin:0;letter-spacing:-.02em;line-height:1.25}
 
 /* ---------- layout ---------- */
 .app{display:grid;grid-template-columns:256px 1fr;min-height:100vh}
-.side{background:linear-gradient(180deg,#0B2433 0%,#0A2F3F 100%);color:#C8DCE3;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;padding:20px 14px;overflow-y:auto}
+.side{background:linear-gradient(180deg,#0B2B4A 0%,#0F3D66 100%);color:#C8DCE3;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;padding:20px 14px;overflow-y:auto}
 .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:1.15rem;letter-spacing:-.02em;padding:4px 8px 8px}
 .brand:hover{color:#fff}
 .brand svg{width:34px;height:34px;flex:none}
@@ -43,7 +43,7 @@ h1,h2,h3,h4{margin:0;letter-spacing:-.02em;line-height:1.25}
 .nav{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;color:#B9CFD8;font-weight:600}
 .nav a:hover{background:rgba(255,255,255,.06);color:#fff}
-.nav a[aria-current="page"]{background:linear-gradient(135deg,#0E8C99,#1D5FD6);color:#fff;box-shadow:0 6px 16px rgba(14,140,153,.35)}
+.nav a[aria-current="page"]{background:linear-gradient(135deg,#1565A8,#1E88D0);color:#fff;box-shadow:0 6px 16px rgba(14,140,153,.35)}
 .side-foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;display:grid;gap:4px}
 .side-foot a,.side-foot button{color:#B9CFD8;font-size:.88rem;display:flex;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;background:none;border:0;cursor:pointer;text-align:left;width:100%}
 .side-foot a:hover,.side-foot button:hover{color:#fff;background:rgba(255,255,255,.06)}
@@ -73,7 +73,7 @@ h1,h2,h3,h4{margin:0;letter-spacing:-.02em;line-height:1.25}
 @media(max-width:520px){.mode-pill{display:none}}
 
 /* ---------- hero & cards ---------- */
-.hero{position:relative;overflow:hidden;border-radius:22px;padding:28px 30px;color:#fff;background:linear-gradient(120deg,#0A4E5C 0%,#0E8C99 45%,#1D5FD6 100%);margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:28px 30px;color:#fff;background:linear-gradient(120deg,#0B3F6B 0%,#1565A8 50%,#1E9BD7 100%);margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .hero::before,.hero::after{content:"";position:absolute;border-radius:50%}
 .hero::before{width:300px;height:300px;right:-80px;top:-140px;background:rgba(255,255,255,.08)}
 .hero::after{width:220px;height:220px;left:30%;bottom:-150px;background:radial-gradient(circle,rgba(246,177,60,.45),transparent 70%)}
@@ -288,6 +288,9 @@ dl.kv dd{margin:0}
 .bar-row{display:grid;grid-template-columns:110px 1fr 40px;gap:10px;align-items:center;margin-bottom:10px;font-size:.86rem}
 .bar-track{height:10px;border-radius:999px;background:var(--soft);overflow:hidden}
 .bar-fill{height:100%;border-radius:999px}
+table.sheet th,table.sheet td{white-space:nowrap;border-right:1px solid var(--line)}
+table.sheet td{font-size:.86rem;padding:9px 12px}
+.tabs-row{display:flex;gap:6px;flex-wrap:wrap}
 #print-area{display:none}
 @media print{
   @page{margin:12mm}
@@ -302,11 +305,9 @@ dl.kv dd{margin:0}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs><linearGradient id="lumina-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14A3A8"/><stop offset="1" stop-color="#1D5FD6"/></linearGradient></defs>
   <symbol id="logo-mark" viewBox="0 0 40 40">
-    <circle cx="20" cy="20" r="17" fill="url(#lumina-g)"/>
-    <path d="M28 2.8A19 19 0 0 1 38.3 15.1" fill="none" stroke="#F6B13C" stroke-width="2.6" stroke-linecap="round"/>
-    <rect x="17" y="10" width="6" height="20" rx="3" fill="#fff"/>
-    <rect x="10" y="17" width="20" height="6" rx="3" fill="#fff"/>
-    <circle cx="20" cy="20" r="2.6" fill="#F6B13C"/>
+    <circle cx="20" cy="20" r="19" fill="#fff"/>
+    <path d="M26.06 9.5A7 7 0 1 0 20 20" fill="none" stroke="#1E88D0" stroke-width="6" stroke-linecap="round"/>
+    <path d="M20 20A7 7 0 1 1 13.94 30.5" fill="none" stroke="#0F4C81" stroke-width="6" stroke-linecap="round"/>
   </symbol>
   <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.3 3.3-5 6.5-5s5.8 1.7 6.5 5"/><circle cx="17" cy="9" r="2.8"/><path d="M17 14.5c2.4 0 4 1.3 4.5 4"/></symbol>
@@ -339,11 +340,11 @@ dl.kv dd{margin:0}
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 00-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0014.3 4.9L20 16M20 20v-4h-4"/></symbol>
 </svg>
 
-<div class="boot" id="boot"><p>Loading Lumina Health…</p></div>
+<div class="boot" id="boot"><p>Loading Skin Shine…</p></div>
 
 <div class="app" id="app" hidden>
   <aside class="side" id="side" aria-label="App navigation">
-    <a class="brand" href="#/dashboard" aria-label="Lumina Health app home"><svg aria-hidden="true"><use href="#logo-mark"/></svg><span>Lumina<span class="wm-light">Health</span></span></a>
+    <a class="brand" href="#/dashboard" aria-label="ShabiHub app home"><svg aria-hidden="true"><use href="#logo-mark"/></svg><span>Skin<span class="wm-light"> Shine</span></span></a>
     <span class="role-badge" id="role-badge"><i></i><span></span></span>
     <nav aria-label="Sections"><ul class="nav" id="nav"></ul></nav>
     <div class="side-foot">
@@ -373,146 +374,15 @@ dl.kv dd{margin:0}
 <div id="print-area"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="lumina-shared.js" charset="utf-8"></script>
 <script src="lumina-core.js" charset="utf-8"></script>
 <script>
 (function(){
 "use strict";
-/* ======================================================================
-   MEDICINE DATABASE (dummy, for suggestions)
-   Format: Form|Brand|Composition|Dosage M-A-N|When|Frequency|Duration n|unit|Notes
-   ====================================================================== */
-const MEDS_RAW=`Tab.|Dolo 650|Paracetamol 650 mg|1-0-1|After food|Daily|3|Days
-Tab.|Dolo 500|Paracetamol 500 mg|1-0-1|After food|Daily|3|Days
-Syp.|Dolo 250 Suspension|Paracetamol 250 mg/5 ml|5ml-5ml-5ml|After food|SOS|3|Days|Only if fever above 100°F
-Tab.|Dolo 1000|Paracetamol 1000 mg|1-0-0|After food|SOS|3|Days
-Tab.|Calpol 650|Paracetamol 650 mg|1-0-1|After food|Daily|3|Days
-Tab.|Calpol 500|Paracetamol 500 mg|1-0-1|After food|Daily|3|Days
-Syp.|Calpol 250|Paracetamol 250 mg/5 ml|5ml-5ml-5ml|After food|SOS|3|Days
-Tab.|Crocin Advance|Paracetamol 500 mg|1-0-1|After food|Daily|3|Days
-Tab.|Crocin 650|Paracetamol 650 mg|1-0-1|After food|Daily|3|Days
-Tab.|Combiflam|Ibuprofen 400 mg + Paracetamol 325 mg|1-0-1|After food|Daily|3|Days
-Tab.|Brufen 400|Ibuprofen 400 mg|1-0-1|After food|Daily|3|Days
-Tab.|Zerodol SP|Aceclofenac 100 mg + Paracetamol 325 mg + Serratiopeptidase 15 mg|1-0-1|After food|Daily|5|Days
-Tab.|Zerodol P|Aceclofenac 100 mg + Paracetamol 325 mg|1-0-1|After food|Daily|5|Days
-Tab.|Ultracet|Tramadol 37.5 mg + Paracetamol 325 mg|1-0-1|After food|SOS|3|Days
-Tab.|Meftal Spas|Mefenamic acid 250 mg + Dicyclomine 10 mg|1-0-1|After food|SOS|3|Days
-Tab.|Cyclopam|Dicyclomine 20 mg + Paracetamol 500 mg|1-0-1|After food|SOS|3|Days
-Tab.|Voveran SR 100|Diclofenac 100 mg|1-0-0|After food|Daily|5|Days
-Tab.|Pan 40|Pantoprazole 40 mg|1-0-0|Before breakfast|Daily|14|Days
-Cap.|Pan D|Pantoprazole 40 mg + Domperidone 30 mg|1-0-0|Before breakfast|Daily|14|Days
-Tab.|Pantocid 40|Pantoprazole 40 mg|1-0-0|Before breakfast|Daily|14|Days
-Cap.|Omez 20|Omeprazole 20 mg|1-0-0|Before breakfast|Daily|14|Days
-Tab.|Razo 20|Rabeprazole 20 mg|1-0-0|Before breakfast|Daily|14|Days
-Cap.|Razo D|Rabeprazole 20 mg + Domperidone 30 mg|1-0-0|Before breakfast|Daily|14|Days
-Tab.|Famocid 20|Famotidine 20 mg|1-0-1|Before food|Daily|7|Days
-Syp.|Digene|Magnesium hydroxide + Aluminium hydroxide + Simethicone|10ml-10ml-10ml|After food|SOS|7|Days
-Tab.|Ondem 4|Ondansetron 4 mg|1-0-1|Before food|SOS|3|Days
-Tab.|Emeset 4|Ondansetron 4 mg|1-0-1|Before food|SOS|3|Days
-Tab.|Domstal 10|Domperidone 10 mg|1-0-1|Before food|Daily|5|Days
-Tab.|Azithral 500|Azithromycin 500 mg|1-0-0|After food|Daily|3|Days
-Tab.|Azee 500|Azithromycin 500 mg|1-0-0|After food|Daily|3|Days
-Syp.|Azithral 200 Liquid|Azithromycin 200 mg/5 ml|5ml-0-0|After food|Daily|3|Days
-Tab.|Augmentin 625 Duo|Amoxicillin 500 mg + Clavulanic acid 125 mg|1-0-1|After food|Daily|5|Days
-Cap.|Mox 500|Amoxicillin 500 mg|1-1-1|After food|Daily|5|Days
-Tab.|Taxim-O 200|Cefixime 200 mg|1-0-1|After food|Daily|5|Days
-Tab.|Zifi 200|Cefixime 200 mg|1-0-1|After food|Daily|5|Days
-Tab.|Cifran 500|Ciprofloxacin 500 mg|1-0-1|After food|Daily|5|Days
-Tab.|Levoflox 500|Levofloxacin 500 mg|1-0-0|After food|Daily|5|Days
-Tab.|Norflox TZ|Norfloxacin 400 mg + Tinidazole 600 mg|1-0-1|After food|Daily|3|Days
-Tab.|Metrogyl 400|Metronidazole 400 mg|1-1-1|After food|Daily|5|Days
-Cap.|Doxy 1 LDR Forte|Doxycycline 100 mg + Lactic acid bacillus|1-0-1|After food|Daily|5|Days
-Tab.|Forcan 150|Fluconazole 150 mg|1-0-0|After food|Weekly|2|Weeks
-Tab.|Cetzine 10|Cetirizine 10 mg|0-0-1|After food|Daily|5|Days
-Tab.|Levocet 5|Levocetirizine 5 mg|0-0-1|After food|Daily|5|Days
-Tab.|Allegra 120|Fexofenadine 120 mg|1-0-0|After food|Daily|5|Days
-Tab.|Allegra 180|Fexofenadine 180 mg|1-0-0|After food|Daily|5|Days
-Tab.|Montair LC|Montelukast 10 mg + Levocetirizine 5 mg|0-0-1|After food|Daily|10|Days
-Tab.|Sinarest|Paracetamol + Phenylephrine + Chlorpheniramine|1-0-1|After food|Daily|3|Days
-Syp.|Ascoril LS|Ambroxol + Levosalbutamol + Guaifenesin|5ml-5ml-5ml|After food|Daily|5|Days
-Syp.|Ascoril D Junior|Dextromethorphan + Chlorpheniramine|2.5ml-0-2.5ml|After food|Daily|5|Days
-Syp.|Grilinctus|Dextromethorphan + Chlorpheniramine|5ml-5ml-5ml|After food|Daily|5|Days
-Syp.|Benadryl|Diphenhydramine + Ammonium chloride|5ml-5ml-5ml|After food|Daily|5|Days
-Inh.|Asthalin|Salbutamol 100 mcg|1-0-1|After food|SOS|1|Months|2 puffs when breathless
-Inh.|Foracort 200|Formoterol 6 mcg + Budesonide 200 mcg|1-0-1|After food|Daily|1|Months|2 puffs; rinse mouth after use
-Tab.|Deriphyllin Retard 150|Etofylline + Theophylline|1-0-1|After food|Daily|7|Days
-Tab.|Glycomet 500|Metformin 500 mg|1-0-1|After food|Daily|1|Months
-Tab.|Glycomet 500 SR|Metformin SR 500 mg|1-0-1|After food|Daily|1|Months
-Tab.|Glycomet 850|Metformin 850 mg|1-0-1|After food|Daily|1|Months
-Tab.|Glycomet 1 g SR|Metformin SR 1000 mg|1-0-1|After food|Daily|1|Months
-Tab.|Glycomet GP 1|Metformin 500 mg + Glimepiride 1 mg|1-0-0|Before breakfast|Daily|1|Months
-Tab.|Glycomet GP 2|Metformin 500 mg + Glimepiride 2 mg|1-0-0|Before breakfast|Daily|1|Months
-Tab.|Glycomet GP 1 Forte|Metformin 1000 mg + Glimepiride 1 mg|1-0-1|Before food|Daily|1|Months
-Tab.|Amaryl 1|Glimepiride 1 mg|1-0-0|Before breakfast|Daily|1|Months
-Tab.|Amaryl 2|Glimepiride 2 mg|1-0-0|Before breakfast|Daily|1|Months
-Tab.|Januvia 100|Sitagliptin 100 mg|1-0-0|After breakfast|Daily|1|Months
-Tab.|Janumet 50/500|Sitagliptin 50 mg + Metformin 500 mg|1-0-1|After food|Daily|1|Months
-Tab.|Galvus Met 50/500|Vildagliptin 50 mg + Metformin 500 mg|1-0-1|After food|Daily|1|Months
-Tab.|Istamet 50/500|Sitagliptin 50 mg + Metformin 500 mg|1-0-1|After food|Daily|1|Months
-Tab.|Jardiance 10|Empagliflozin 10 mg|1-0-0|After breakfast|Daily|1|Months
-Tab.|Forxiga 10|Dapagliflozin 10 mg|1-0-0|After breakfast|Daily|1|Months
-Inj.|Lantus|Insulin glargine 100 IU/ml|0-0-1|Bed time|Daily|1|Months|Units as advised
-Inj.|Huminsulin 30/70|Human insulin premix 30/70|1-0-1|Before food|Daily|1|Months|Units as advised, 15 min before meal
-Tab.|Telma 40|Telmisartan 40 mg|1-0-0|After food|Daily|1|Months
-Tab.|Telma 80|Telmisartan 80 mg|1-0-0|After food|Daily|1|Months
-Tab.|Telma H|Telmisartan 40 mg + Hydrochlorothiazide 12.5 mg|1-0-0|After food|Daily|1|Months
-Tab.|Telma AM|Telmisartan 40 mg + Amlodipine 5 mg|1-0-0|After food|Daily|1|Months
-Tab.|Amlong 5|Amlodipine 5 mg|1-0-0|After food|Daily|1|Months
-Tab.|Stamlo 5|Amlodipine 5 mg|1-0-0|After food|Daily|1|Months
-Tab.|Concor 5|Bisoprolol 5 mg|1-0-0|After food|Daily|1|Months
-Tab.|Met XL 25|Metoprolol succinate 25 mg|1-0-0|After food|Daily|1|Months
-Tab.|Met XL 50|Metoprolol succinate 50 mg|1-0-0|After food|Daily|1|Months
-Tab.|Losar 50|Losartan 50 mg|1-0-0|After food|Daily|1|Months
-Tab.|Ecosprin 75|Aspirin 75 mg|0-1-0|After food|Daily|1|Months
-Tab.|Ecosprin AV 75|Aspirin 75 mg + Atorvastatin 10 mg|0-0-1|After food|Daily|1|Months
-Tab.|Clopilet 75|Clopidogrel 75 mg|0-1-0|After food|Daily|1|Months
-Tab.|Atorva 10|Atorvastatin 10 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Atorva 20|Atorvastatin 20 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Rosuvas 10|Rosuvastatin 10 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Rosuvas 20|Rosuvastatin 20 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Lasix 40|Furosemide 40 mg|1-0-0|After breakfast|Daily|7|Days
-Tab.|Dytor 10|Torsemide 10 mg|1-0-0|After breakfast|Daily|7|Days
-Tab.|Thyronorm 25|Levothyroxine 25 mcg|1-0-0|Empty stomach|Daily|3|Months|30 min before breakfast
-Tab.|Thyronorm 50|Levothyroxine 50 mcg|1-0-0|Empty stomach|Daily|3|Months|30 min before breakfast
-Tab.|Thyronorm 75|Levothyroxine 75 mcg|1-0-0|Empty stomach|Daily|3|Months|30 min before breakfast
-Tab.|Thyronorm 100|Levothyroxine 100 mcg|1-0-0|Empty stomach|Daily|3|Months|30 min before breakfast
-Tab.|Eltroxin 50|Levothyroxine 50 mcg|1-0-0|Empty stomach|Daily|3|Months|30 min before breakfast
-Tab.|Neomercazole 5|Carbimazole 5 mg|1-0-1|After food|Daily|1|Months
-Tab.|Shelcal 500|Calcium carbonate 1250 mg + Vitamin D3 250 IU|0-1-0|After food|Daily|1|Months
-Tab.|Shelcal HD|Calcium carbonate 1250 mg + Vitamin D3 1000 IU|0-1-0|After food|Daily|1|Months
-Cap.|Uprise D3 60K|Cholecalciferol 60000 IU|1-0-0|With milk|Weekly|8|Weeks
-Cap.|D-Rise 60K|Cholecalciferol 60000 IU|1-0-0|With milk|Weekly|8|Weeks
-Cap.|Becosules|Vitamin B-complex + Vitamin C|1-0-0|After food|Daily|1|Months
-Tab.|Neurobion Forte|Vitamin B1 + B6 + B12|1-0-0|After food|Daily|1|Months
-Tab.|Nurokind OD|Methylcobalamin 1500 mcg|1-0-0|After food|Daily|1|Months
-Tab.|Limcee 500|Vitamin C 500 mg|1-0-0|After food|Daily|1|Months
-Tab.|Zincovit|Multivitamin + Multimineral + Zinc|1-0-0|After food|Daily|1|Months
-Tab.|Folvite 5|Folic acid 5 mg|1-0-0|After food|Daily|1|Months
-Tab.|Orofer XT|Ferrous ascorbate 100 mg + Folic acid 1.5 mg|0-0-1|After food|Daily|1|Months
-Sach.|Electral|Oral rehydration salts (WHO)|1-1-1|After food|Daily|3|Days|1 sachet in 1 litre water, sip through the day
-Cap.|Sporlac|Lactic acid bacillus|1-0-1|After food|Daily|5|Days
-Syp.|Duphalac|Lactulose 10 g/15 ml|0-0-15ml|Bed time|Daily|7|Days
-Syp.|Cremaffin Plus|Liquid paraffin + Milk of magnesia + Sodium picosulfate|0-0-10ml|Bed time|Daily|7|Days
-Tab.|Udiliv 300|Ursodeoxycholic acid 300 mg|1-0-1|After food|Daily|1|Months
-Tab.|Liv 52|Herbal liver formulation|1-0-1|After food|Daily|1|Months
-Cap.|Pregalin 75|Pregabalin 75 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Gabapin 300|Gabapentin 300 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Nexito 10|Escitalopram 10 mg|0-0-1|After food|Daily|1|Months
-Tab.|Melatonin 3 mg|Melatonin 3 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Susten 200|Natural micronised progesterone 200 mg|0-0-1|Bed time|Daily|1|Months
-Tab.|Duphaston 10|Dydrogesterone 10 mg|1-0-1|After food|Daily|10|Days
-Tab.|Meprate 10|Medroxyprogesterone 10 mg|1-0-1|After food|Daily|10|Days
-Oint.|Soframycin|Framycetin 1%|1-0-1|Apply locally|Daily|5|Days
-Cream|Candid|Clotrimazole 1%|1-0-1|Apply locally|Daily|2|Weeks
-Gel|Volini|Diclofenac + Methyl salicylate + Menthol|1-0-1|Apply locally|Daily|5|Days
-Oint.|T-Bact|Mupirocin 2%|1-0-1|Apply locally|Daily|5|Days
-Drops|Moxicip Eye Drops|Moxifloxacin 0.5%|1-1-1|Apply locally|Daily|5|Days|1 drop in each eye`;
-const MEDS=MEDS_RAW.split("\n").map(l=>{const p=l.split("|");return {form:p[0],brand:p[1],name:p[0]+" "+p[1],comp:p[2],dose:p[3],when:p[4],freq:p[5],durN:p[6],durU:p[7],notes:p[8]||""}});
-const QUICK=["Dolo 650","Pan 40","Azithral 500","Cetzine 10","Montair LC","Glycomet 500","Telma 40","Shelcal 500","Uprise D3 60K","Ondem 4"];
-const DOSE_OPTS=["0","½","1","1½","2","2.5ml","5ml","10ml","15ml"];
-const WHEN_OPTS=["After food","Before food","Before breakfast","After breakfast","Empty stomach","Bed time","With milk","Apply locally"];
-const FREQ_OPTS=["Daily","Alternate days","Weekly","Monthly","SOS","Once"];
-const DIAGNOSES=["Acute viral fever","Upper respiratory tract infection","Acute gastroenteritis","Type 2 diabetes mellitus","Hypertension","Hypothyroidism","Vitamin D deficiency","Iron deficiency anaemia","Acid peptic disease","Migraine","Allergic rhinitis","Urinary tract infection","Dyslipidaemia","Osteoarthritis knee","Bronchial asthma"];
-const RECEIPT_ITEMS=[["Consultation",800],["Review visit",400],["Video consultation",600],["ECG",350],["RBS (glucometer)",100],["HbA1c",450],["Dressing",150],["Injection charges",100]];
+/* Medicine list, option lists and printable documents come from lumina-shared.js (also used by the mobile app) */
+const S=LuminaShared;
+const {MEDS,QUICK,DOSE_OPTS,WHEN_OPTS,FREQ_OPTS,DIAGNOSES,RECEIPT_ITEMS}=S;
 
 /* ================= helpers ================= */
 const $=(s,c)=>(c||document).querySelector(s);
@@ -528,15 +398,7 @@ const icon=(id,cls)=>`<svg class="icon ${cls||""}" aria-hidden="true"><use href=
 const AV_COLORS=["#0E8C99","#1D5FD6","#E8960F","#6D4BD8","#D23F63","#13795B"];
 const avColor=s=>AV_COLORS[[...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0)%AV_COLORS.length];
 const avatar=(name,size)=>`<span class="avatar" style="background:${avColor(name)};${size?`width:${size}px;height:${size}px`:""}" aria-hidden="true">${esc(initials(name))}</span>`;
-function inWords(n){
-  n=Math.floor(n);if(!n)return "Zero";
-  const a=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"],b=["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
-  const two=x=>x<20?a[x]:b[Math.floor(x/10)]+(x%10?" "+a[x%10]:"");
-  const three=x=>(x>=100?a[Math.floor(x/100)]+" Hundred"+(x%100?" ":""):"")+(x%100?two(x%100):"");
-  const out=[],cr=Math.floor(n/1e7);n%=1e7;const l=Math.floor(n/1e5);n%=1e5;const th=Math.floor(n/1e3);n%=1e3;
-  if(cr)out.push(three(cr)+" Crore");if(l)out.push(two(l)+" Lakh");if(th)out.push(two(th)+" Thousand");if(n)out.push(three(n));
-  return out.join(" ");
-}
+const inWords=S.inWords;
 
 const client=LuminaCore.client();
 function api(method,url,body){
@@ -548,7 +410,7 @@ const safe=fn=>(...args)=>Promise.resolve().then(()=>fn(...args)).catch(e=>toast
 
 const TONE={requested:"amber",booked:"blue","checked-in":"teal",completed:"green",cancelled:"red","no-show":"red",paid:"green",unpaid:"amber",new:"amber",contacted:"blue",converted:"green",closed:"",active:"green",inactive:"red"};
 const chip=(s,label)=>`<span class="chip ${TONE[s]||""}">${esc(label||s)}</span>`;
-const ROLE_LABEL={admin:"Admin",doctor:"Doctor",nurse:"Nurse",reception:"Reception",patient:"Patient"};
+const ROLE_LABEL={admin:"Admin",doctor:"Doctor",nurse:"Nurse",reception:"Reception",pharmacy:"Pharmacy",patient:"Patient"};
 const viewOnly=`<span class="view-only">${icon("i-lock","icon-sm")}View only</span>`;
 
 function table(cols,rows,emptyMsg){
@@ -563,10 +425,11 @@ const HERO_ILL=`<svg class="hero-ill" viewBox="0 0 120 90" aria-hidden="true"><r
 const hero=(title,sub,actions)=>`<div class="hero"><div><h2>${esc(title)}</h2><p>${esc(sub)}</p>${actions?`<div class="actions" style="margin-top:16px">${actions}</div>`:""}</div>${HERO_ILL}</div>`;
 
 const ROLE_INFO={
-  admin:{can:["Add, edit, deactivate & delete staff and patient logins","Edit clinic details printed on prescriptions & receipts","Track demo requests & messages from the website","View every patient, appointment, prescription, vitals record & receipt"],cannot:["Write prescriptions (doctors only)","Record vitals (nurses only)","Register patients, book appointments or issue receipts (reception only)"]},
+  admin:{can:["Add, edit, deactivate & delete staff and patient logins","Edit clinic details printed on prescriptions & receipts","Track demo requests & messages from the website","View every patient, appointment, prescription, vitals record & receipt","Download the Excel sheet of patients, payments & visits"],cannot:["Write prescriptions (doctors only)","Record vitals (nurses only)","Register patients, book appointments or issue receipts (reception only)"]},
   doctor:{can:["See your queue and full patient history","See vitals recorded by the nurse","Write medicines with smart search, dosage & timing","Print prescriptions and mark visits completed"],cannot:["Edit patient details (reception)","Edit vitals (nurse)","See billing or manage users"]},
   nurse:{can:["Record and correct vitals: BP, pulse, temperature, SpO₂, height, weight, sugar","See today's queue for all doctors","View patient details and allergies"],cannot:["Edit patient details","Write prescriptions","See billing or manage users"]},
-  reception:{can:["Register patients and update their general details","Book, confirm, check in, reschedule and cancel appointments","Create receipts and record payments"],cannot:["See or edit prescriptions and vitals","Manage users or clinic settings"]},
+  reception:{can:["Register patients and update their general details","Book, confirm, check in, reschedule and cancel appointments","Create receipts, record payments and see the last payments","Open and download the Excel sheet"],cannot:["See or edit prescriptions and vitals","Manage users or clinic settings"]},
+  pharmacy:{can:["View today's and past prescriptions","Search prescriptions by patient, UHID or medicine","Browse the medicine list"],cannot:["Edit anything: the pharmacy login is view only","See billing, vitals or users"]},
   patient:{can:["See your appointments, prescriptions, vitals and receipts","Request or cancel an appointment","Print your prescriptions and receipts"],cannot:["See other patients' information","Change medical records"]}
 };
 const permCard=()=>{const i=ROLE_INFO[me.role];return `<details class="perm"><summary><span class="lock-ic">${icon("i-lock","icon-sm")}</span>What you can do as ${ROLE_LABEL[me.role]}<svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chev"/></svg></summary><div class="perm-body"><div class="yes"><h4>You can</h4><ul>${i.can.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div class="no"><h4>Locked for your role</h4><ul>${i.cannot.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div></details>`};
@@ -613,10 +476,11 @@ const PHONE_PATTERN="(\\+91[\\s-]?)?[6-9]\\d{4}[\\s-]?\\d{5}";
 /* ================= state & routing ================= */
 let me=null,doctors=[],settings={},mode="demo";
 const NAV={
-  admin:[["dashboard","Dashboard","i-grid"],["users","Users & roles","i-users"],["leads","Website leads","i-inbox"],["patients","Patients","i-user"],["appointments","Appointments","i-calendar"],["vitals","Vitals records","i-heart"],["prescriptions","Prescriptions","i-file"],["billing","Receipts","i-receipt"],["settings","Clinic settings","i-building"],["profile","My profile","i-settings"]],
+  admin:[["dashboard","Dashboard","i-grid"],["users","Users & roles","i-users"],["leads","Website requests","i-inbox"],["patients","Patients","i-user"],["appointments","Appointments","i-calendar"],["vitals","Vitals records","i-heart"],["prescriptions","Prescriptions","i-file"],["billing","Receipts & payments","i-receipt"],["sheet","Excel sheet","i-grid"],["settings","Clinic settings","i-building"],["profile","My profile","i-settings"]],
   doctor:[["dashboard","My queue","i-grid"],["appointments","Appointments","i-calendar"],["patients","Patients","i-user"],["prescriptions","My prescriptions","i-file"],["profile","My profile","i-settings"]],
   nurse:[["dashboard","Vitals desk","i-heart"],["vitals","Vitals log","i-file"],["patients","Patients","i-user"],["profile","My profile","i-settings"]],
-  reception:[["dashboard","Front desk","i-grid"],["appointments","Appointments","i-calendar"],["patients","Patients","i-user"],["billing","Receipts","i-receipt"],["profile","My profile","i-settings"]],
+  reception:[["dashboard","Front desk","i-grid"],["appointments","Appointments","i-calendar"],["patients","Patients","i-user"],["billing","Receipts & payments","i-receipt"],["sheet","Excel sheet","i-grid"],["profile","My profile","i-settings"]],
+  pharmacy:[["dashboard","Today's prescriptions","i-file"],["prescriptions","All prescriptions","i-file"],["medicines","Medicines","i-pill"],["profile","My profile","i-settings"]],
   patient:[["dashboard","Home","i-grid"],["appointments","My appointments","i-calendar"],["prescriptions","My prescriptions","i-file"],["vitals","My vitals","i-heart"],["billing","My receipts","i-receipt"],["profile","My profile","i-settings"]]
 };
 const HIDDEN={doctor:{consult:"Consultation"}};
@@ -631,7 +495,7 @@ function render(){
   const {r,args}=parseRoute();
   const item=NAV[me.role].find(n=>n[0]===r);const title=item?item[1]:HIDDEN[me.role][r];
   $$("#nav a").forEach(a=>{if(a.dataset.route===r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
-  $("#page-title").textContent=title;document.title=title+" — Lumina Health";
+  $("#page-title").textContent=title;document.title=title+" — "+((settings&&settings.clinicName)||"Skin Shine");
   setSide(false);closeComboLists();
   view.innerHTML='<p class="muted">Loading…</p>';
   safe(VIEWS[r])(args).then(()=>window.scrollTo(0,0));
@@ -640,60 +504,11 @@ const rerender=()=>render();
 function setSide(open){$("#side").classList.toggle("open",open);$("#scrim").classList.toggle("open",open);$("#menu-btn").setAttribute("aria-expanded",open)}
 
 /* ================= documents: prescription & receipt ================= */
-function vitalsLine(v){
-  if(!v)return "";const parts=[];
-  if(v.bpSys)parts.push(`<b>BP</b> ${v.bpSys}/${v.bpDia} mmHg`);
-  if(v.pulse)parts.push(`<b>Pulse</b> ${v.pulse} bpm`);
-  if(v.temp)parts.push(`<b>Temp</b> ${v.temp} °F`);
-  if(v.spo2)parts.push(`<b>SpO₂</b> ${v.spo2}%`);
-  if(v.resp)parts.push(`<b>RR</b> ${v.resp}/min`);
-  if(v.height)parts.push(`<b>Height</b> ${v.height} cm`);
-  if(v.weight)parts.push(`<b>Weight</b> ${v.weight} kg`);
-  if(v.bmi)parts.push(`<b>BMI</b> ${v.bmi} kg/m²`);
-  if(v.sugar)parts.push(`<b>${esc(v.sugarType||"RBS")}</b> ${v.sugar} mg/dL`);
-  return parts.join(" | ");
-}
-function clinicHeader(right){
-  return `<div class="rx-h"><div class="clinic"><svg aria-hidden="true"><use href="#logo-mark"/></svg><div><b>${esc(settings.clinicName)}</b><small>${esc(settings.tagline)}</small><span>${esc(settings.address)}</span></div></div><div class="doc-info">${right}</div></div>`;
-}
-function rxDoc(rx){
-  const sec=(label,val)=>val?`<div class="rx-sec"><b>${label}:</b> ${esc(val)}</div>`:"";
-  return `<div class="rxdoc">${clinicHeader(`<b>${esc(rx.doctorName)}</b><span>${esc(rx.doctorQualification||"")}</span><span class="spec">${esc(rx.doctorSpecialty||"")}</span><span>Regn No. ${esc(rx.doctorRegNo||"—")}</span><span>Contact: ${esc(settings.phone)}</span><span>${esc(settings.email)}</span>`)}
-    ${settings.rxNote?`<div class="rx-note">${esc(settings.rxNote)}</div>`:""}
-    <div class="rx-pt"><b>${esc(rx.patientUhid||"")}</b><span>: <b>${esc(String(rx.patientName).toUpperCase())}</b> (${esc(rx.patientAge!=null?rx.patientAge+"y":"")}${rx.patientGender?", "+esc(rx.patientGender):""})</span><b>Date &amp; Time</b><span>: ${fmtDate(rx.date)} ${fmtTime(rx.time)}</span><b>Rx No.</b><span>: ${esc(rx.number||"Draft")}</span></div>
-    ${rx.vitals?`<div class="rx-vitals">${vitalsLine(rx.vitals)}</div>`:""}
-    ${sec("Quick Notes",rx.complaints)}${sec("General Examination",rx.examination)}${sec("Diagnosis",rx.diagnosis)}${sec("Diet and Exercise",rx.diet)}
-    <div class="rx-symbol">℞</div>
-    <table class="rx-table"><thead><tr><th style="width:28px"></th><th>Medicine</th><th style="width:110px">Dosage</th><th>Timing – Freq. – Duration</th></tr></thead><tbody>
-    ${rx.medicines.map((m,i)=>`<tr><td>${i+1})</td><td><span class="mname">${esc(m.name)}</span>${m.composition?`<span class="msub">Composition: ${esc(m.composition)}</span>`:""}<span class="msub">Timing: ${esc(doseText(m.dosage))}</span>${m.notes?`<span class="msub">Notes: ${esc(m.notes)}</span>`:""}</td><td><b>${esc(m.dosage.replace(/-/g," – "))}</b></td><td>${esc([m.timing,m.frequency,m.duration].filter(Boolean).join(" – "))}</td></tr>`).join("")}
-    </tbody></table>
-    ${sec("Advice",rx.advice)}
-    ${rx.tests?`<div class="rx-sec"><b>Tests Prescribed${rx.testsAfter?` [after ${esc(rx.testsAfter)}]`:""}:</b> ${esc(rx.tests)}</div>`:""}
-    ${rx.followUp?`<div class="rx-sec"><b>Follow-up on:</b> ${fmtDate(rx.followUp)}</div>`:""}
-    <div class="rx-sign"><div><div class="sig">${esc(String(rx.doctorName).replace(/^Dr\.?\s*/,""))}</div><b>${esc(rx.doctorName)}</b><div style="font-size:11.5px">${esc(rx.doctorQualification||"")}</div></div></div>
-    <div class="rx-foot">${esc(settings.address)} · For appointments call ${esc(settings.phone)} · ${esc(settings.timings)}<br>Powered by Lumina Health EMR</div></div>`;
-}
-function doseText(d){
-  const p=String(d||"").split("-");if(p.length!==3)return d||"";
-  const slots=["Morning","Afternoon","Night"],out=[];
-  p.forEach((x,i)=>{if(x&&x!=="0")out.push(x+" "+slots[i])});
-  return out.join(", ")||"As directed";
-}
-function receiptDoc(inv){
-  const sub=inv.items.reduce((s,i)=>s+i.amount,0);
-  return `<div class="rxdoc">${clinicHeader(`<span>Phone: ${esc(settings.phone)}</span><span>${esc(settings.email)}</span><span>${esc(settings.timings)}</span>`)}
-    <div class="rcpt-title"><div><h3>PAYMENT RECEIPT</h3><div>Receipt No. <b>${esc(inv.number)}</b> · ${fmtDate(inv.date)} ${fmtTime(inv.time)}</div></div><span class="stamp ${inv.status==="paid"?"paid":"due"}">${inv.status==="paid"?"PAID":"DUE"}</span></div>
-    <div class="rx-pt"><b>Received from</b><span>: <b>${esc(String(inv.patientName).toUpperCase())}</b> (${esc(inv.patientAge!=null?inv.patientAge+"y":"")}${inv.patientGender?", "+esc(inv.patientGender):""})</span><b>UHID</b><span>: ${esc(inv.patientUhid||"—")}</span></div>
-    <table class="rx-table" style="margin-top:10px"><thead><tr><th style="width:36px">#</th><th>Description</th><th style="text-align:right;width:120px">Amount</th></tr></thead><tbody>
-    ${inv.items.map((i,k)=>`<tr><td>${k+1}</td><td>${esc(i.description)}</td><td style="text-align:right">${money(i.amount)}</td></tr>`).join("")}
-    <tr><td></td><td style="text-align:right">Subtotal</td><td style="text-align:right">${money(sub)}</td></tr>
-    ${inv.discount?`<tr><td></td><td style="text-align:right">Discount</td><td style="text-align:right">− ${money(inv.discount)}</td></tr>`:""}
-    <tr><td></td><td style="text-align:right"><b>Total</b></td><td style="text-align:right"><b style="font-size:15px">${money(inv.total)}</b></td></tr></tbody></table>
-    <p style="margin:12px 0 4px"><b>Amount in words:</b> Rupees ${inWords(inv.total)} Only</p>
-    <p style="margin:0">${inv.status==="paid"?`<b>Payment mode:</b> ${esc(inv.mode||"—")}`:"<b>Payment pending</b>"}${inv.receivedByName?` · <b>Received by:</b> ${esc(inv.receivedByName)}`:""}</p>
-    <div class="rx-sign"><div><div class="sig">${esc(settings.clinicName)}</div><b>Authorised signatory</b></div></div>
-    <div class="rx-foot">This is a computer-generated receipt. · ${esc(settings.address)}<br>Powered by Lumina Health EMR</div></div>`;
-}
+const vitalsLine=v=>S.vitalsLine(v);
+const clinicHeader=right=>S.clinicHeader(settings,right);
+const rxDoc=rx=>S.rxDoc(rx,settings);
+const doseText=S.doseText;
+const receiptDoc=inv=>S.receiptDoc(inv,settings);
 function docModal(title,html,extra){
   const body=openModal(title,`<div class="doc-wrap">${html}</div><div class="modal-actions">${extra||""}<button class="btn btn-ghost" data-close>Close</button><button class="btn" id="print-btn">${icon("i-printer","icon-sm")}Print</button></div>`,true);
   $("#print-btn",body).addEventListener("click",()=>{$("#print-area").innerHTML=`<div class="doc-wrap">${html}</div>`;window.print()});
@@ -731,16 +546,45 @@ function vitalsModal(ctx,existing,done){
 const patientOptions=list=>[["","Select patient"]].concat(list.map(p=>[p.id,p.name+" · UHID "+p.uhid+(p.phone?" · "+p.phone:"")]));
 const doctorOptions=()=>[["","Select doctor"]].concat(doctors.map(d=>[d.id,d.name+(d.specialty?" · "+d.specialty:"")]));
 
+/* Booking slots: only inside clinic hours, never on closed days, never earlier than "now" for today,
+   and (for staff) never a slot that is already booked. The server checks the same rules again. */
+const toMin=t=>{const p=String(t||"").split(":");return (+p[0])*60+(+p[1]||0)};
+const fromMin=m=>pad(Math.floor(m/60))+":"+pad(m%60);
+const nowHM=()=>{const d=new Date();return pad(d.getHours())+":"+pad(d.getMinutes())};
+const isClosedDay=date=>(settings.closedDays||[]).includes(new Date(date+"T12:00:00").getDay());
+function clinicSlots(date){
+  if(isClosedDay(date))return [];
+  const from=toMin(settings.openTime||"09:00"),to=toMin(settings.closeTime||"21:00"),step=Number(settings.slotMinutes)||15,out=[];
+  for(let m=from;m<to;m+=step)out.push(fromMin(m));
+  return date===todayStr()?out.filter(s=>s>nowHM()):out;
+}
+function firstOpenDate(){
+  for(let i=0;i<14;i++){const d=new Date();d.setDate(d.getDate()+i);const s=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());if(clinicSlots(s).length)return s}
+  return todayStr();
+}
 async function bookModal(done,presetPatientId){
   const patients=me.role==="patient"?[]:await api("GET","/api/patients");
+  const start=firstOpenDate();
   const inner=(me.role==="patient"?"":fld("patientId","Patient",{required:true,options:patientOptions(patients),value:presetPatientId,full:true}))+
-    fld("doctorId","Doctor",{required:true,options:doctorOptions(),full:true})+
-    fld("date","Date",{type:"date",required:true,min:todayStr(),value:todayStr()})+
-    fld("time","Time",{type:"time",required:true,value:"10:00",step:900})+
+    fld("doctorId","Doctor",{required:true,options:doctorOptions(),value:doctors.length===1?doctors[0].id:"",full:true})+
+    fld("date","Date",{type:"date",required:true,min:todayStr(),value:start})+
+    fld("time","Time",{required:true,options:[["","Loading slots…"]],hint:settings.timings||""})+
     fld("type","Consultation type",{options:["In-clinic","Video"]})+
     fld("reason","Reason for visit",{placeholder:"e.g. Fever, follow-up"});
-  formModal(me.role==="patient"?"Request an appointment":"Book appointment",inner,me.role==="patient"?"Send request":"Book appointment",d=>
-    api("POST","/api/appointments",d).then(()=>{closeModal();toast(me.role==="patient"?"Request sent. The clinic will confirm shortly.":"Appointment booked");done&&done()}));
+  const form=formModal(me.role==="patient"?"Request an appointment":"Book appointment",inner,me.role==="patient"?"Send request":"Book appointment",d=>{
+    if(!d.time)throw new Error("Please pick a free time slot.");
+    return api("POST","/api/appointments",d).then(()=>{closeModal();toast(me.role==="patient"?"Request sent. The clinic will confirm shortly.":"Appointment booked");done&&done()});
+  });
+  const dateEl=$("[name=date]",form),timeEl=$("[name=time]",form),docEl=$("[name=doctorId]",form);
+  const refresh=async()=>{
+    const date=dateEl.value;let slots=date&&date>=todayStr()?clinicSlots(date):[];
+    if(slots.length&&me.role!=="patient"&&docEl.value){
+      try{const booked=(await api("GET","/api/appointments?date="+date)).filter(a=>a.doctorId===docEl.value&&!["cancelled","no-show"].includes(a.status)).map(a=>a.time);slots=slots.filter(s=>!booked.includes(s))}catch(e){}
+    }
+    const why=!date||date<todayStr()?"Pick today or a later date":isClosedDay(date)?"Clinic closed on this day — pick another date":date===todayStr()&&!slots.length?"No more slots today — pick another date":"No free slots — pick another date";
+    timeEl.innerHTML=slots.length?`<option value="">Select a time</option>`+slots.map(s=>`<option value="${s}">${fmtTime(s)}</option>`).join(""):`<option value="">${esc(why)}</option>`;
+  };
+  dateEl.addEventListener("change",refresh);docEl.addEventListener("change",refresh);refresh();
 }
 function patientFormModal(existing,done){
   const p=existing||{};
@@ -832,15 +676,7 @@ function hBars(rows){const max=Math.max(1,...rows.map(r=>r.value));return rows.m
 let comboSeq=0;
 function closeComboLists(except){$$(".combo-list").forEach(l=>{if(l!==except){l.hidden=true;const i=l.parentNode.querySelector("input");i&&i.setAttribute("aria-expanded","false")}})}
 document.addEventListener("click",e=>{if(!e.target.closest(".combo"))closeComboLists()});
-function searchMeds(q){
-  q=q.trim().toLowerCase();if(!q)return [];
-  const scored=[];
-  MEDS.forEach((m,i)=>{const b=m.brand.toLowerCase(),n=m.name.toLowerCase(),c=m.comp.toLowerCase();let s=-1;
-    if(b.startsWith(q))s=0;else if(b.split(/[\s-]/).some(w=>w.startsWith(q)))s=1;else if(n.includes(q))s=2;else if(c.includes(q))s=3;
-    if(s>=0)scored.push([s,i,m])});
-  // same match quality -> keep database order (most commonly used strengths are listed first)
-  return scored.sort((a,b)=>a[0]-b[0]||a[1]-b[1]).slice(0,9).map(x=>x[2]);
-}
+const searchMeds=q=>S.searchMeds(q);
 function hl(text,q){const i=text.toLowerCase().indexOf(q.toLowerCase());return i<0?esc(text):esc(text.slice(0,i))+"<mark>"+esc(text.slice(i,i+q.length))+"</mark>"+esc(text.slice(i+q.length))}
 function medCardHtml(n){
   const id="lb"+(++comboSeq);
@@ -932,14 +768,22 @@ VIEWS.dashboard=async()=>{
     const n=$("#next-v");if(n)n.addEventListener("click",()=>vitalsModal({patientId:pending[0].patientId,patientName:pending[0].patientName,appointmentId:pending[0].id},null,rerender));
     return;
   }
+  if(me.role==="pharmacy"){
+    const rxs=await api("GET","/api/prescriptions");
+    const today=rxs.filter(r=>r.date===t);
+    view.innerHTML=hero(greeting()+", "+me.name.split(" ")[0],"Pharmacy · "+fmtDate(t)+" · view only",`<a class="btn" href="#/prescriptions">${icon("i-search","icon-sm")}Search prescriptions</a><a class="btn btn-amber" href="#/medicines">${icon("i-pill","icon-sm")}Medicines</a>`)+permCard()+
+      statCards([{label:"Prescriptions today",value:today.length,icon:"i-file"},{label:"Medicines to give today",value:today.reduce((a,r)=>a+r.medicines.length,0),icon:"i-pill",tone:"violet"},{label:"Last 7 days",value:rxs.filter(r=>(new Date(t)-new Date(r.date))/864e5<7).length,icon:"i-calendar",tone:"blue"},{label:"All prescriptions",value:rxs.length,icon:"i-check",tone:"green"}])+
+      panel(icon("i-file","icon-sm")+"Today's prescriptions "+viewOnly,rxTable(today,"No prescriptions written today yet. They appear here as soon as the doctor saves them."));
+    bindRx(view,today);return;
+  }
   if(me.role==="reception"){
     const [list,invs]=await Promise.all([api("GET","/api/appointments?date="+t),api("GET","/api/invoices")]);
     const c=s=>list.filter(a=>a.status===s).length;
     const todayPaid=invs.filter(i=>i.date===t&&i.status==="paid").reduce((s,i)=>s+i.total,0);
-    view.innerHTML=hero(greeting()+", "+me.name.split(" ")[0],"Front desk · "+fmtDate(t),`<button class="btn" id="reg">${icon("i-user-plus","icon-sm")}Register patient</button><button class="btn" id="book">${icon("i-calendar","icon-sm")}Book appointment</button><button class="btn btn-amber" id="rcpt">${icon("i-receipt","icon-sm")}New receipt</button>`)+permCard()+
+    view.innerHTML=hero(greeting()+", "+me.name.split(" ")[0],"Front desk · "+fmtDate(t),`<button class="btn" id="reg">${icon("i-user-plus","icon-sm")}Register patient</button><button class="btn" id="book">${icon("i-calendar","icon-sm")}Book appointment</button><button class="btn btn-amber" id="rcpt">${icon("i-receipt","icon-sm")}New receipt</button><a class="btn" href="#/sheet">${icon("i-grid","icon-sm")}Excel sheet</a>`)+permCard()+
       statCards([{label:"Appointments today",value:list.length,icon:"i-calendar"},{label:"Requests to confirm",value:c("requested"),icon:"i-inbox",tone:"amber"},{label:"Checked in",value:c("checked-in"),icon:"i-users",tone:"blue"},{label:"Completed",value:c("completed"),icon:"i-check",tone:"green"},{label:"Collected today",value:money(todayPaid),icon:"i-rupee",tone:"violet"}])+
-      panel(icon("i-calendar","icon-sm")+"Today's appointments",apptTable(list,{empty:"No appointments today."}));
-    bindApptActions(view,list);
+      `<div class="grid-3">${panel(icon("i-calendar","icon-sm")+"Today's appointments",apptTable(list,{empty:"No appointments today."}))}${panel(icon("i-rupee","icon-sm")+"Last payments",paymentsList(lastPayments(invs).slice(0,6)),'<a class="btn btn-outline btn-xs" href="#/billing">View all</a>')}</div>`;
+    bindApptActions(view,list);bindPayView(view,invs);
     $("#book").addEventListener("click",safe(()=>bookModal(rerender)));
     $("#reg").addEventListener("click",()=>patientFormModal(null,rerender));
     $("#rcpt").addEventListener("click",safe(()=>newReceiptModal()));
@@ -1084,7 +928,16 @@ VIEWS.vitals=async()=>{
 };
 
 VIEWS.prescriptions=async()=>{
-  const list=await api("GET","/api/prescriptions");
+  const all=await api("GET","/api/prescriptions");
+  if(me.role!=="patient"){
+    view.innerHTML=pageHead(me.role==="doctor"?"My prescriptions":"Prescriptions",me.role==="doctor"?"To write a new prescription, click Consult in your queue or Prescribe on a patient.":me.role==="pharmacy"?"View only. Prescriptions appear here as soon as the doctor saves them.":"Read-only. Only doctors can write prescriptions.",["admin","pharmacy"].includes(me.role)?viewOnly:"")+
+      `<section class="panel"><div class="panel-head"><div class="toolbar"><div class="search"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="rq">Search prescriptions</label><input class="input" id="rq" type="search" placeholder="Patient, UHID, Rx no. or medicine"></div><label class="sr-only" for="rp">Period</label><select class="input" id="rp"><option value="today">Today</option><option value="7">Last 7 days</option><option value="all" selected>All</option></select></div><span class="muted" id="rcount"></span></div><div id="rtable"></div></section>`;
+    const draw=()=>{const q=$("#rq").value.toLowerCase(),per=$("#rp").value,t=todayStr();
+      const list=all.filter(r=>per==="all"||(per==="today"?r.date===t:(new Date(t)-new Date(r.date))/864e5<7)).filter(r=>!q||(r.patientName+" "+r.patientUhid+" "+r.number+" "+r.diagnosis+" "+r.medicines.map(m=>m.name).join(" ")).toLowerCase().includes(q));
+      $("#rcount").textContent=list.length+" prescription"+(list.length===1?"":"s");$("#rtable").innerHTML=rxTable(list,q?"No prescriptions match your search.":"No prescriptions in this period.");bindRx($("#rtable"),list)};
+    $("#rq").addEventListener("input",draw);$("#rp").addEventListener("change",draw);draw();return;
+  }
+  const list=all;
   const cols=[{h:"Date",f:r=>`<b>${fmtDate(r.date)}</b><span class="sub">${esc(r.number||"")}</span>`}];
   if(me.role!=="patient")cols.push({h:"Patient",f:r=>`<div class="person">${avatar(r.patientName)}<span><b>${esc(r.patientName)}</b><span class="sub">UHID ${esc(r.patientUhid)}</span></span></div>`});
   if(me.role!=="doctor")cols.push({h:"Doctor",f:r=>`${esc(r.doctorName)}<span class="sub">${esc(r.doctorSpecialty||"")}</span>`});
@@ -1103,8 +956,17 @@ VIEWS.billing=async()=>{
     {h:"Actions",f:i=>`<div class="row-actions"><button class="btn btn-outline btn-xs" data-inv="${i.id}">${icon("i-printer","icon-sm")}View</button>${staff&&i.status!=="paid"?`<button class="btn btn-xs" data-pay="${i.id}">Mark paid</button>`:""}</div>`});
   view.innerHTML=pageHead(me.role==="patient"?"My receipts":"Receipts",me.role==="admin"?"Read-only. Reception issues receipts and records payments.":null,staff?`<button class="btn btn-amber" id="new-inv">${icon("i-plus","icon-sm")}New receipt</button>`:(me.role==="admin"?viewOnly:""))+
     statCards([{label:"Paid",value:money(paid),icon:"i-check",tone:"green"},{label:"Due",value:money(due),icon:"i-receipt",tone:"amber"},{label:"Receipts",value:list.length,icon:"i-file",tone:"blue"}])+
+    (me.role==="patient"?"":`<section class="panel"><div class="panel-head"><h3>${icon("i-rupee","icon-sm")}Last payments</h3><div class="actions"><label class="sr-only" for="pp">Period</label><select class="input" id="pp"><option value="1">Today</option><option value="7" selected>Last 7 days</option><option value="30">Last 30 days</option><option value="all">All</option></select></div></div><div id="pay-sum" class="panel-body" style="padding-bottom:0"></div><div id="pay-list"></div></section>`)+
     panel("All receipts",table(cols,list,"No receipts yet."));
   $$("[data-inv]").forEach(b=>b.addEventListener("click",()=>receiptModal(list.find(i=>i.id===b.dataset.inv))));
+  if(me.role!=="patient"){
+    const drawPay=()=>{const per=$("#pp").value,t=todayStr(),from=(()=>{const d=new Date();d.setDate(d.getDate()-(Number(per)-1));return ymdOf(d.toISOString())})();
+      const pays=lastPayments(list).filter(i=>per==="all"||(per==="1"?ymdOf(paidStamp(i))===t:ymdOf(paidStamp(i))>=from));
+      const byMode={};pays.forEach(i=>{const m=i.mode||"Other";byMode[m]=(byMode[m]||0)+i.total});
+      $("#pay-sum").innerHTML=`<div class="toolbar" style="gap:10px"><span class="chip green plain" style="font-size:.9rem;padding:6px 14px">Collected ${money(pays.reduce((a,i)=>a+i.total,0))} · ${pays.length} payment${pays.length===1?"":"s"}</span>${Object.keys(byMode).map(m=>`<span class="chip plain">${esc(m)} ${money(byMode[m])}</span>`).join("")}</div>`;
+      $("#pay-list").innerHTML=paymentsList(pays);bindPayView($("#pay-list"),list)};
+    $("#pp").addEventListener("change",drawPay);drawPay();
+  }
   $$("[data-pay]").forEach(b=>b.addEventListener("click",()=>{
     formModal("Record payment",fld("mode","Payment mode",{options:["UPI","Cash","Card","Net banking"],full:true}),"Mark as paid",d=>
       api("PUT","/api/invoices/"+b.dataset.pay,{status:"paid",mode:d.mode}).then(inv=>{closeModal();toast("Payment recorded");rerender();setTimeout(()=>receiptModal(inv),150)}));
@@ -1115,8 +977,8 @@ async function newReceiptModal(presetPatientId,doctorName){
   const patients=await api("GET","/api/patients");
   const row=(desc,amt)=>`<div class="line-row"><input name="i_desc" placeholder="Description" aria-label="Item description" value="${esc(desc||"")}"><input name="i_amt" type="number" min="0" step="0.01" placeholder="Amount ₹" aria-label="Amount in rupees" value="${esc(amt||"")}"><button type="button" class="icon-btn" data-remove aria-label="Remove item">${icon("i-trash","icon-sm")}</button></div>`;
   const inner=fld("patientId","Patient",{required:true,options:patientOptions(patients),value:presetPatientId,full:true})+
-    `<div class="full"><div class="section-label" style="margin-top:4px">Items · quick add</div><div class="quick" style="margin-bottom:10px">${RECEIPT_ITEMS.map(([d,a])=>`<button type="button" data-item="${esc(d)}" data-amt="${a}">+ ${esc(d)} ₹${a}</button>`).join("")}</div><div id="items">${row(doctorName?"Consultation — "+doctorName:"Consultation",800)}</div><button type="button" class="btn btn-outline btn-xs" id="add-item">${icon("i-plus","icon-sm")}Add item</button></div>`+
-    fld("discount","Discount ₹",{type:"number",min:0,step:"0.01",value:0})+`<div class="field"><label>Total</label><div class="bmi-live" id="inv-total">₹800</div></div>`+
+    `<div class="full"><div class="section-label" style="margin-top:4px">Items · quick add</div><div class="quick" style="margin-bottom:10px">${RECEIPT_ITEMS.map(([d,a])=>`<button type="button" data-item="${esc(d)}" data-amt="${a}">+ ${esc(d)} ₹${a}</button>`).join("")}</div><div id="items">${row(doctorName?"Consultation - "+doctorName:"Consultation",settings.consultFee||500)}</div><button type="button" class="btn btn-outline btn-xs" id="add-item">${icon("i-plus","icon-sm")}Add item</button></div>`+
+    fld("discount","Discount ₹",{type:"number",min:0,step:"0.01",value:0})+`<div class="field"><label>Total</label><div class="bmi-live" id="inv-total">${money(settings.consultFee||500)}</div></div>`+
     fld("status","Payment",{options:[["paid","Paid now"],["unpaid","Pay later (due)"]]})+fld("mode","Payment mode",{options:["UPI","Cash","Card","Net banking"]});
   const form=formModal("New receipt",inner,"Create receipt",d=>{
     const items=$$("#items .line-row",form).map(r=>({description:$("[name=i_desc]",r).value.trim(),amount:Number($("[name=i_amt]",r).value)})).filter(i=>i.description&&i.amount>0);
@@ -1135,7 +997,7 @@ VIEWS.users=async()=>{
   view.innerHTML=pageHead("Users & roles","Create logins for doctors, nurses, reception staff and patients. Each role only sees what it's allowed to.",`<button class="btn" id="add-user">${icon("i-user-plus","icon-sm")}Add user</button>`)+
     panel(list.length+" users",table([
       {h:"Name",f:u=>`<div class="person">${avatar(u.name)}<span><b>${esc(u.name)}</b><span class="sub">${esc(u.email)}</span></span></div>`},
-      {h:"Role",f:u=>`<span class="chip ${({admin:"red",doctor:"blue",nurse:"violet",reception:"amber",patient:"teal"})[u.role]}">${esc(ROLE_LABEL[u.role])}</span>${u.specialty?`<span class="sub">${esc(u.specialty)}</span>`:""}`},
+      {h:"Role",f:u=>`<span class="chip ${({admin:"red",doctor:"blue",nurse:"violet",reception:"amber",pharmacy:"green",patient:"teal"})[u.role]}">${esc(ROLE_LABEL[u.role])}</span>${u.specialty?`<span class="sub">${esc(u.specialty)}</span>`:""}`},
       {h:"Status",f:u=>chip(u.active?"active":"inactive")},
       {h:"Last login",f:u=>u.lastLogin?fmtDate(u.lastLogin):'<span class="muted">Never</span>'},
       {h:"Actions",f:u=>`<div class="row-actions"><button class="btn btn-outline btn-xs" data-edit="${u.id}">Edit</button>${u.id!==me.id?`<button class="btn btn-danger btn-xs" data-del="${u.id}">Delete</button>`:""}</div>`}
@@ -1152,7 +1014,7 @@ function userModal(u){
   const isDoc=!u||u.role==="doctor";
   const inner=fld("name","Full name",{required:true,value:u&&u.name,full:true})+
     fld("email","Email (login ID)",{type:"email",required:true,value:u&&u.email,autocomplete:"off"})+
-    fld("role","Role",{required:true,options:[["doctor","Doctor"],["nurse","Nurse"],["reception","Reception"],["patient","Patient"],["admin","Admin"]],value:u?u.role:"doctor"})+
+    fld("role","Role",{required:true,options:[["doctor","Doctor"],["nurse","Nurse"],["reception","Reception"],["pharmacy","Pharmacy"],["patient","Patient"],["admin","Admin"]],value:u?u.role:"doctor"})+
     fld("qualification","Qualification",{value:u&&u.qualification,placeholder:"e.g. MBBS, MD",wrapId:"w-qual",hidden:!isDoc})+
     fld("specialty","Specialty",{value:u&&u.specialty,placeholder:"e.g. Cardiologist",wrapId:"w-spec",hidden:!isDoc})+
     fld("regNo","Medical registration no.",{value:u&&u.regNo,wrapId:"w-reg",hidden:!isDoc})+
@@ -1169,19 +1031,19 @@ function userModal(u){
 
 VIEWS.leads=async()=>{
   const list=await api("GET","/api/leads");
-  view.innerHTML=pageHead("Website leads","Demo requests and contact messages from the Lumina website.")+
+  view.innerHTML=pageHead("Website requests","Appointment requests and messages sent from the clinic website. Call the patient back to confirm.")+
     panel(list.length+" leads",table([
       {h:"Received",f:l=>fmtDate(l.createdAt)},
       {h:"Name",f:l=>`<b>${esc(l.name)}</b><span class="sub">${esc(l.email)}${l.phone?" · "+esc(l.phone):""}</span>`},
-      {h:"Type",f:l=>`<span class="chip ${l.type==="demo"?"blue":"violet"}">${l.type==="demo"?"Demo":"Contact"}</span>`},
-      {h:"Details",f:l=>esc(l.type==="demo"?[l.specialty,l.city].filter(Boolean).join(" · "):[l.organisation,l.topic].filter(Boolean).join(" · "))},
+      {h:"Type",f:l=>`<span class="chip ${({demo:"blue",contact:"violet",appointment:"green"})[l.type]||""}">${({demo:"Demo",contact:"Contact",appointment:"Appointment"})[l.type]||esc(l.type)}</span>`},
+      {h:"Details",f:l=>esc(l.type==="appointment"?[l.concern,l.preferredDate?"for "+fmtDate(l.preferredDate):""].filter(Boolean).join(" · "):l.type==="demo"?[l.specialty,l.city].filter(Boolean).join(" · "):[l.organisation,l.topic].filter(Boolean).join(" · "))},
       {h:"Status",f:l=>`<label class="sr-only" for="ls-${l.id}">Status</label><select class="input" style="min-height:34px;padding:5px 8px" id="ls-${l.id}" data-status="${l.id}">${["new","contacted","converted","closed"].map(s=>`<option value="${s}"${s===l.status?" selected":""}>${s[0].toUpperCase()+s.slice(1)}</option>`).join("")}</select>`},
       {h:"Actions",f:l=>`<div class="row-actions"><button class="btn btn-outline btn-xs" data-open="${l.id}">Open</button><button class="btn btn-danger btn-xs" data-del="${l.id}">Delete</button></div>`}
     ],list,"No leads yet. Demo and contact form submissions from the website will appear here."));
   $$("[data-status]").forEach(s=>s.addEventListener("change",safe(async()=>{await api("PUT","/api/leads/"+s.dataset.status,{status:s.value});toast("Lead updated")})));
   $$("[data-open]").forEach(b=>b.addEventListener("click",()=>{
     const l=list.find(x=>x.id===b.dataset.open);
-    openModal(l.name,`<dl class="kv"><dt>Type</dt><dd>${l.type==="demo"?"Demo request":"Contact message"}</dd><dt>Email</dt><dd><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></dd><dt>Mobile</dt><dd>${esc(l.phone||"—")}</dd>${l.specialty?`<dt>Specialty</dt><dd>${esc(l.specialty)}</dd>`:""}${l.city?`<dt>City</dt><dd>${esc(l.city)}</dd>`:""}${l.organisation?`<dt>I am a</dt><dd>${esc(l.organisation)}</dd>`:""}${l.topic?`<dt>Topic</dt><dd>${esc(l.topic)}</dd>`:""}<dt>Received</dt><dd>${new Date(l.createdAt).toLocaleString("en-IN")}</dd><dt>From page</dt><dd>${esc(l.page||"—")}</dd></dl>${l.message?`<div class="section-label">Message</div><p style="white-space:pre-wrap">${esc(l.message)}</p>`:""}<div class="modal-actions"><button class="btn btn-ghost" data-close>Close</button></div>`);
+    openModal(l.name,`<dl class="kv"><dt>Type</dt><dd>${({demo:"Demo request",contact:"Contact message",appointment:"Appointment request"})[l.type]||esc(l.type)}</dd>${l.concern?`<dt>Concern</dt><dd>${esc(l.concern)}</dd>`:""}${l.preferredDate?`<dt>Preferred date</dt><dd>${fmtDate(l.preferredDate)}</dd>`:""}<dt>Email</dt><dd><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></dd><dt>Mobile</dt><dd>${esc(l.phone||"—")}</dd>${l.specialty?`<dt>Specialty</dt><dd>${esc(l.specialty)}</dd>`:""}${l.city?`<dt>City</dt><dd>${esc(l.city)}</dd>`:""}${l.organisation?`<dt>I am a</dt><dd>${esc(l.organisation)}</dd>`:""}${l.topic?`<dt>Topic</dt><dd>${esc(l.topic)}</dd>`:""}<dt>Received</dt><dd>${new Date(l.createdAt).toLocaleString("en-IN")}</dd><dt>From page</dt><dd>${esc(l.page||"—")}</dd></dl>${l.message?`<div class="section-label">Message</div><p style="white-space:pre-wrap">${esc(l.message)}</p>`:""}<div class="modal-actions"><button class="btn btn-ghost" data-close>Close</button></div>`);
   }));
   $$("[data-del]").forEach(b=>b.addEventListener("click",safe(async()=>{if(!confirm("Delete this lead?"))return;await api("DELETE","/api/leads/"+b.dataset.del);toast("Lead deleted");rerender()})));
 };
@@ -1189,7 +1051,7 @@ VIEWS.leads=async()=>{
 VIEWS.settings=async()=>{
   const s=await api("GET","/api/settings");
   view.innerHTML=pageHead("Clinic settings","These details appear on every prescription and receipt.")+
-    `<div class="grid-2">${panel("Clinic details",`<form class="panel-body" id="set-form"><div class="form-grid">${fld("clinicName","Clinic name",{required:true,value:s.clinicName,full:true})}${fld("tagline","Tagline / specialities",{value:s.tagline,full:true})}${fld("address","Address",{value:s.address,full:true})}${fld("phone","Phone",{value:s.phone})}${fld("email","Email",{type:"email",value:s.email})}${fld("timings","Timings",{value:s.timings,full:true})}${fld("rxNote","Note printed on prescriptions",{type:"textarea",value:s.rxNote,full:true})}</div><p class="form-error" role="alert" hidden></p><div class="modal-actions"><button class="btn" type="submit">Save settings</button></div></form>`)}
+    `<div class="grid-2">${panel("Clinic details",`<form class="panel-body" id="set-form"><div class="form-grid">${fld("clinicName","Clinic name",{required:true,value:s.clinicName,full:true})}${fld("tagline","Tagline / specialities",{value:s.tagline,full:true})}${fld("address","Address",{value:s.address,full:true})}${fld("phone","Phone",{value:s.phone})}${fld("email","Email",{type:"email",value:s.email})}${fld("timings","Timings (shown to patients)",{value:s.timings,full:true})}${fld("openTime","Opens at",{type:"time",value:s.openTime})}${fld("closeTime","Closes at",{type:"time",value:s.closeTime})}${fld("slotMinutes","Appointment slot",{type:"number",min:5,max:120,value:s.slotMinutes,hint:"minutes"})}${fld("consultFee","Consultation fee",{type:"number",min:0,value:s.consultFee,hint:"₹"})}${fld("rxNote","Note printed on prescriptions",{type:"textarea",value:s.rxNote,full:true})}</div><p class="form-error" role="alert" hidden></p><div class="modal-actions"><button class="btn" type="submit">Save settings</button></div></form>`)}
     ${panel("Preview",`<div class="panel-body"><div class="doc-wrap" id="set-prev"></div></div>`)}</div>`;
   const f=$("#set-form"),err=$(".form-error",f);
   const prev=()=>{const d=formData(f);$("#set-prev").innerHTML=`<div class="rxdoc">${(()=>{const keep=settings;settings=Object.assign({},s,d);const h=clinicHeader(`<b>Dr. Sample Doctor</b><span>MBBS, MD</span><span class="spec">Specialty</span><span>Contact: ${esc(d.phone)}</span>`)+(d.rxNote?`<div class="rx-note">${esc(d.rxNote)}</div>`:"");settings=keep;return h})()}</div>`};
@@ -1209,8 +1071,77 @@ VIEWS.profile=async()=>{
   });
 };
 
+/* ================= payments, prescriptions table, medicines, Excel sheet ================= */
+const paidStamp=i=>i.paidAt||(i.date+"T"+(i.time||"00:00")+":00");
+const ymdOf=iso=>{const d=new Date(iso);return isNaN(d)?String(iso).slice(0,10):d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
+const hmOf=iso=>{const d=new Date(iso);return isNaN(d)?"":pad(d.getHours())+":"+pad(d.getMinutes())};
+const lastPayments=list=>list.filter(i=>i.status==="paid").sort((a,b)=>paidStamp(b).localeCompare(paidStamp(a)));
+function paymentsList(pays){
+  return table([
+    {h:"Paid on",f:i=>`<b style="white-space:nowrap">${fmtDate(ymdOf(paidStamp(i)))}</b><span class="sub">${fmtTime(hmOf(paidStamp(i)))}</span>`},
+    {h:"Patient",f:i=>`<b>${esc(i.patientName)}</b><span class="sub">UHID ${esc(i.patientUhid)} · ${esc(i.number)}</span>`},
+    {h:"Services",f:i=>esc(i.items.map(x=>x.description).join(", "))},
+    {h:"Mode",f:i=>`<span class="chip ${i.mode==="Cash"?"amber":i.mode==="Card"?"violet":"teal"}">${esc(i.mode||"—")}</span>`},
+    {h:"Amount",num:true,f:i=>`<b>${money(i.total)}</b>`},
+    {h:"",f:i=>`<button class="btn btn-outline btn-xs" data-payview="${i.id}">View</button>`}
+  ],pays,"No payments in this period.");
+}
+function bindPayView(root,list){$$("[data-payview]",root).forEach(b=>b.addEventListener("click",()=>receiptModal(list.find(i=>i.id===b.dataset.payview))))}
+function rxTable(list,empty){
+  return table([
+    {h:"Date",f:r=>`<b style="white-space:nowrap">${fmtDate(r.date)}</b><span class="sub">${fmtTime(r.time)} · ${esc(r.number||"")}</span>`},
+    ...(me.role!=="patient"?[{h:"Patient",f:r=>`<div class="person">${avatar(r.patientName)}<span><b>${esc(r.patientName)}</b><span class="sub">UHID ${esc(r.patientUhid)}</span></span></div>`}]:[]),
+    ...(me.role!=="doctor"?[{h:"Doctor",f:r=>esc(r.doctorName)}]:[]),
+    {h:"Medicines",f:r=>r.medicines.map(m=>`<div><b>${esc(m.name)}</b> <span class="muted">${esc(m.dosage)} · ${esc(m.duration)}</span></div>`).join("")},
+    {h:"",f:r=>`<button class="btn btn-outline btn-xs" data-rxv="${r.id}">${icon("i-eye","icon-sm")}View</button>`}
+  ],list,empty);
+}
+function bindRx(root,list){$$("[data-rxv]",root).forEach(b=>b.addEventListener("click",()=>rxViewModal(list.find(r=>r.id===b.dataset.rxv))))}
+
+VIEWS.medicines=async()=>{
+  view.innerHTML=pageHead("Medicines","The medicine list doctors pick from when writing prescriptions.",viewOnly)+
+    `<section class="panel"><div class="panel-head"><div class="toolbar search"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="mq">Search medicines</label><input class="input" id="mq" type="search" placeholder="Brand or composition, e.g. mintop, itraconazole"></div><span class="muted" id="mcount"></span></div><div id="mtable"></div></section>`;
+  const draw=()=>{const q=$("#mq").value.trim(),list=q?S.searchMeds(q,80):MEDS;$("#mcount").textContent=list.length+" medicines";
+    $("#mtable").innerHTML=table([{h:"Medicine",f:m=>`<b>${esc(m.name)}</b>`},{h:"Composition",f:m=>esc(m.comp)},{h:"Usual dose",f:m=>`${esc(m.dose)}<span class="sub">${esc(doseText(m.dose))}</span>`},{h:"When · how long",f:m=>`${esc(m.when)} · ${esc(m.freq)}<span class="sub">${esc(m.durN+" "+m.durU)}</span>`},{h:"Note",f:m=>esc(m.notes||"")}],list,"No medicines match.")};
+  $("#mq").addEventListener("input",draw);draw();
+};
+
+const SHEET_COLS={
+  patients:[["UHID","uhid"],["Patient name","name"],["Age","age"],["Gender","gender"],["Mobile","phone"],["Area","city"],["Registered","registered","date"],["Visits","visits"],["Last visit","lastVisit","date"],["Billed (₹)","billed","money"],["Paid (₹)","paid","money"],["Due (₹)","due","money"],["Last payment","lastPayment","date"]],
+  payments:[["Date","date","date"],["Time","time","time"],["Receipt no.","number"],["UHID","uhid"],["Patient","name"],["Mobile","phone"],["Services","services"],["Amount (₹)","amount","money"],["Discount (₹)","discount","money"],["Total (₹)","total","money"],["Mode","mode"],["Status","status"],["Received by","receivedBy"]],
+  visits:[["Date","date","date"],["Time","time","time"],["UHID","uhid"],["Patient","name"],["Doctor","doctor"],["Type","type"],["Reason","reason"],["Status","status"]]
+};
+const SHEET_TITLES={patients:"Patients",payments:"Payments",visits:"Visits"};
+VIEWS.sheet=async()=>{
+  const data=await api("GET","/api/report");
+  let tab="patients";
+  const tot=k=>data.patients.reduce((a,p)=>a+p[k],0);
+  view.innerHTML=pageHead("Excel sheet","All patients with amounts and dates, plus every payment and visit. Download it as an Excel file any time.",`<button class="btn" id="xl">${icon("i-file","icon-sm")}Download Excel (.xlsx)</button>`)+
+    statCards([{label:"Patients",value:data.patients.length,icon:"i-users"},{label:"Total billed",value:money(tot("billed")),icon:"i-receipt",tone:"blue"},{label:"Collected",value:money(tot("paid")),icon:"i-rupee",tone:"green"},{label:"Due",value:money(tot("due")),icon:"i-clock",tone:"amber"}])+
+    `<section class="panel"><div class="panel-head"><div class="tabs-row" role="tablist" aria-label="Sheet">${Object.keys(SHEET_COLS).map(k=>`<button class="btn ${k===tab?"":"btn-outline"} btn-xs" role="tab" data-tab="${k}" aria-selected="${k===tab}">${SHEET_TITLES[k]}</button>`).join(" ")}</div><div class="toolbar search"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><label class="sr-only" for="sq">Search sheet</label><input class="input" id="sq" type="search" placeholder="Search"></div></div><div id="sheet-table" class="table-wrap"></div></section><p class="muted" style="font-size:.84rem">Updated ${new Date(data.generatedAt).toLocaleString("en-IN")}</p>`;
+  const cellOf=(r,[,k,kind])=>{const v=r[k];if(v===""||v==null)return "";return kind==="date"?fmtDate(v):kind==="time"?fmtTime(v):kind==="money"?money(v):esc(v)};
+  const draw=()=>{const q=$("#sq").value.toLowerCase(),cols=SHEET_COLS[tab],rows=data[tab].filter(r=>!q||Object.values(r).join(" ").toLowerCase().includes(q));
+    $("#sheet-table").innerHTML=rows.length?`<table class="sheet"><thead><tr><th>#</th>${cols.map(c=>`<th${c[2]==="money"?' style="text-align:right"':""}>${esc(c[0])}</th>`).join("")}</tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="muted">${i+1}</td>${cols.map(c=>`<td${c[2]==="money"?' class="num"':""}${c[1]==="due"&&r.due>0?' style="color:var(--danger);font-weight:700"':""}>${cellOf(r,c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`:'<div class="empty">No rows match.</div>';
+    $$("[data-tab]").forEach(b=>{const on=b.dataset.tab===tab;b.classList.toggle("btn-outline",!on);b.setAttribute("aria-selected",on)})};
+  $$("[data-tab]").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.tab;draw()}));
+  $("#sq").addEventListener("input",draw);draw();
+  $("#xl").addEventListener("click",()=>{
+    const name=(settings.clinicName||"Clinic").replace(/[^\w]+/g,"-")+"-records-"+todayStr();
+    const aoa=k=>[SHEET_COLS[k].map(c=>c[0]),...data[k].map(r=>SHEET_COLS[k].map(([,key,kind])=>kind==="money"?Number(r[key]||0):(r[key]==null?"":r[key])))];
+    if(window.XLSX){
+      const wb=XLSX.utils.book_new();
+      Object.keys(SHEET_COLS).forEach(k=>{const ws=XLSX.utils.aoa_to_sheet(aoa(k));ws["!cols"]=SHEET_COLS[k].map(c=>({wch:Math.max(10,c[0].length+4)}));XLSX.utils.book_append_sheet(wb,ws,SHEET_TITLES[k])});
+      XLSX.writeFile(wb,name+".xlsx");toast("Excel file downloaded");
+    }else{ // offline fallback: CSV opens in Excel too
+      const csv=aoa(tab).map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
+      const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));a.download=name+"-"+tab+".csv";a.click();toast("Downloaded as CSV (opens in Excel)");
+    }
+  });
+};
+
 /* ================= boot ================= */
 async function boot(){
+  document.head.insertAdjacentHTML("beforeend","<style>"+S.DOC_CSS+"</style>");
   try{
     mode=await client.mode();
     me=(await api("GET","/api/me")).user;
@@ -1220,8 +1151,9 @@ async function boot(){
   $("#who-name").textContent=me.name;$("#who-role").textContent=ROLE_LABEL[me.role]+(me.specialty?" · "+me.specialty:"");
   const av=$("#who-avatar");av.textContent=initials(me.name);av.style.background=avColor(me.name);
   $("#role-badge span").textContent=ROLE_LABEL[me.role]+" workspace";
+  if(settings.clinicName){$(".side .brand > span").innerHTML=esc(settings.clinicName)+'<small style="display:block;font-size:.66rem;font-weight:600;color:var(--teal-300);letter-spacing:.02em">by ShabiHub</small>';document.title=settings.clinicName}
   const mp=$("#mode-pill");mp.textContent=mode==="server"?"● Live database":"● Demo mode · saved in this browser";mp.classList.toggle("server",mode==="server");
-  mp.title=mode==="server"?"Connected to the Lumina server (data.json)":"Run start.bat to use the shared database";
+  mp.title=mode==="server"?"Connected to the clinic server (data.json)":"Run start.bat to use the shared database";
   if(mode==="demo"){const r=$("#reset-demo");r.hidden=false;r.addEventListener("click",()=>{if(confirm("Reset all demo data back to the original sample data?")){client.resetDemo();location.replace("login.html")}})}
   $("#boot").hidden=true;$("#app").hidden=false;
   $("#menu-btn").addEventListener("click",()=>setSide(!$("#side").classList.contains("open")));
