@@ -215,6 +215,9 @@ body.menu-open{overflow:hidden}
 .doctor-portrait{background:var(--grad);border-radius:var(--radius-xl);aspect-ratio:4/5;max-width:100%;display:grid;place-items:center;position:relative;overflow:hidden;color:#fff}
 .doctor-portrait::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.08);right:-80px;bottom:-80px}
 .doctor-portrait .initials{font-size:5rem;font-weight:800;letter-spacing:.04em;position:relative;z-index:1}
+.doctor-portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:1}
+.doc-avatar{overflow:hidden}
+.doc-avatar img{width:100%;height:100%;object-fit:cover;transform:scale(1.9);transform-origin:50% 28%}
 .doctor-portrait small{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:.78rem;color:#D6E6F5;z-index:1}
 .check-list{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px}
 .check-list li{display:flex;gap:12px;color:var(--ink-2)}
@@ -442,10 +445,10 @@ form.sent .form-success{display:block}
           <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-pin"/></svg>Opp. Pillar No. 100</li>
         </ul>
       </div>
-      <div class="hero-visual reveal d2">
+      <div class="hero-visual">
         <div class="doc-card">
           <div class="doc-top">
-            <div class="doc-avatar" aria-hidden="true">SY</div>
+            <div class="doc-avatar"><img src="dr-syed-yousuf-ali.jpg" alt="" width="84" height="84"></div>
             <div><b>Dr. Syed Yousuf Ali</b><span>MBBS, MD (Dermatology, Venereology &amp; Leprosy)</span></div>
           </div>
           <div class="doc-rows">
@@ -544,9 +547,8 @@ form.sent .form-success{display:block}
 
   <section class="section" aria-labelledby="doc-title">
     <div class="container doctor-band">
-      <div class="doctor-portrait reveal" role="img" aria-label="Dr. Syed Yousuf Ali, dermatologist at Skin Shine">
-        <span class="initials" aria-hidden="true">SY</span>
-        <small>[Add the doctor's photo here]</small>
+      <div class="doctor-portrait reveal">
+        <img src="dr-syed-yousuf-ali.jpg" alt="Dr. Syed Yousuf Ali, dermatologist at Skin Shine" width="1254" height="1254" loading="lazy">
       </div>
       <div class="reveal d1">
         <span class="eyebrow">Meet the doctor</span>

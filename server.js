@@ -18,7 +18,7 @@ const DB_FILE = path.join(ROOT, "data.json");
 // Only these files are served to browsers. data.json and server.js are never exposed.
 const FILES = {
   "index.html": "text/html", "treatments.html": "text/html", "doctor.html": "text/html", "contact.html": "text/html",
-  "login.html": "text/html", "app.html": "text/html", "lumina-core.js": "text/javascript", "lumina-shared.js": "text/javascript",
+  "login.html": "text/html", "app.html": "text/html", "lumina-core.js": "text/javascript", "lumina-shared.js": "text/javascript", "dr-syed-yousuf-ali.jpg": "image/jpeg",
 };
 // Sample data profile: "skinshine" (default) or "demo". Set LUMINA_PROFILE=demo for the generic demo clinic.
 const SESSION_HOURS = 12;        // website (cookie)
@@ -167,7 +167,7 @@ const server = http.createServer(async (req, res) => {
       return res.end('<!doctype html><meta charset="utf-8"><title>Not found</title><body style="font-family:system-ui;padding:40px"><h1>Page not found</h1><p><a href="/">Back to the website</a></p>');
     }
     const content = fs.readFileSync(path.join(ROOT, name));
-    res.writeHead(200, { "Content-Type": FILES[name] + "; charset=utf-8", "Cache-Control": "no-cache" });
+    res.writeHead(200, { "Content-Type": FILES[name].startsWith("image/") ? FILES[name] : FILES[name] + "; charset=utf-8", "Cache-Control": "no-cache" });
     res.end(req.method === "HEAD" ? undefined : content);
   } catch (e) {
     if (!e.status) console.error(e);
